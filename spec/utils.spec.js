@@ -91,7 +91,7 @@ describe('makeRefObj', () => {
 describe('formatComments', () => {
 	it('returns an empty object when passed with an array containing an empty object', () => {
 		const input = [ {} ];
-		const result = makeRefObj(input);
+		const result = formatComments(input);
 		expect(result).to.be.eql({});
 	});
 });
