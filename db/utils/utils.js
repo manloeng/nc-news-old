@@ -1,7 +1,7 @@
 exports.formatDate = (list) => {
 	if (!list) return null;
-	let date = new Date(list[0].created_at);
-	return date;
+	list[0].created_at = new Date(list[0].created_at);
+	return list;
 };
 
 exports.makeRefObj = (list) => {};
