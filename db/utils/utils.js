@@ -16,7 +16,14 @@ exports.makeRefObj = (list) => {
 };
 
 exports.formatComments = (comments, articleRef) => {
-	return {};
+	console.log(comments);
+	console.log(articleRef);
+	if (!Object.keys(comments[0]).length) return {};
+	comments[0].created_at = new Date(comments[0].created_at);
+	// comments.forEach((comment) => {
+	// 	comment.created_at = new Date(comment.created_at);
+	// });
+	return comments[0];
 };
 
 /**
