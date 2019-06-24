@@ -108,7 +108,7 @@ describe('formatComments', () => {
 			{ created_at: new Date(1561303241) }
 		]);
 	});
-	it('returns an amended key-value pair in the object', () => {
+	it('returns a single amended key-value pair in the object', () => {
 		const articleRef = {
 			'Running a Node App': 1,
 			'Running away': 2,
@@ -122,6 +122,28 @@ describe('formatComments', () => {
 			}
 		];
 		const result = formatComments(input, articleRef);
-		expect(result).to.be.eql({ article_id: 1 });
+		expect(result).to.be.eql([ { article_id: 1 } ]);
+	});
+	it('returns multiple amended key-value pair in the object', () => {
+		const articleRef = {
+			'Running a Node App': 10,
+			'Running away': 22,
+			'Running so far': 333,
+			'Running for your dream': 14,
+			'Run while you can': 55
+		};
+		const input = [
+			{
+				belongs_to: 'Running a Node App'
+			},
+			{
+				belongs_to: 'Run while you can'
+			},
+			{
+				belongs_to: 'Running so far'
+			}
+		];
+		const result = formatComments(input, articleRef);
+		expect(result).to.be.eql([ { article_id: 10 }, { article_id: 55 }, { article_id: 333 } ]);
 	});
 });
