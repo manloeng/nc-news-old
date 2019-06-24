@@ -15,7 +15,9 @@ exports.makeRefObj = (list) => {
 	return newRefObj;
 };
 
-exports.formatComments = (comments, articleRef) => {};
+exports.formatComments = (comments, articleRef) => {
+	return {};
+};
 
 /**
  * 		(datevalues = [
