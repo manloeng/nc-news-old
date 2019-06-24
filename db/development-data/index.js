@@ -1,6 +1,6 @@
-const articles = require('./articles');
-const comments = require('./comments');
-const topics = require('./topics');
-const users = require('./users');
+const articlesData = require('./articles');
+const commentsData = require('./comments');
+const topicsData = require('./topics');
+const usersData = require('./users');
 
-module.exports = { articles, comments, topics, users };
+module.exports = { articlesData, commentsData, topicsData, usersData };
