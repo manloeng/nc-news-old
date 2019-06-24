@@ -16,11 +16,15 @@ exports.makeRefObj = (list) => {
 };
 
 exports.formatComments = (comments, articleRef) => {
-	console.log(comments);
-	console.log(articleRef);
 	if (!Object.keys(comments[0]).length) return {};
 	comments.forEach((comment) => {
-		comment.created_at = new Date(comment.created_at);
+		if (Object.keys(comment)[0] === 'created_at') {
+			comment.created_at = new Date(comment.created_at);
+		}
+		if (Object.keys(comment)[0] === 'belongs_to') {
+			comment.article_id = articleRef[comment.belongs_to];
+			delete comment.belongs_to;
+		}
 	});
 	return comments;
 };
