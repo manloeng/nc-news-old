@@ -62,7 +62,7 @@ describe('makeRefObj', () => {
 		const input = [
 			{
 				article_id: 1000,
-				belongs_to: 'Running a Node App'
+				title: 'Running a Node App'
 			}
 		];
 		const result = makeRefObj(input);
@@ -72,15 +72,15 @@ describe('makeRefObj', () => {
 		const input = [
 			{
 				article_id: 1000,
-				belongs_to: 'Running a Node App'
+				title: 'Running a Node App'
 			},
 			{
 				article_id: 10,
-				belongs_to: 'Running away'
+				title: 'Running away'
 			},
 			{
 				article_id: 1,
-				belongs_to: 'Running so far'
+				title: 'Running so far'
 			}
 		];
 		const result = makeRefObj(input);

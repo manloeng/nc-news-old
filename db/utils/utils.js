@@ -10,7 +10,7 @@ exports.makeRefObj = (list) => {
 	if (!Object.keys(list[0]).length) return {};
 	const newRefObj = {};
 	list.forEach((article) => {
-		newRefObj[article.belongs_to] = article.article_id;
+		newRefObj[article.title] = article.article_id;
 	});
 	return newRefObj;
 };
