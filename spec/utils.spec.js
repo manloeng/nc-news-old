@@ -7,7 +7,7 @@ describe('formatDate', () => {
 		expect(result).to.be.null;
 	});
 	it('returns the converted date when passed a Unix timestamp of 0', () => {
-		const input = [ 0 ];
+		const input = [ { created_at: 0 } ];
 		const result = formatDate(input);
 		expect(result).to.be.eql(new Date(0));
 	});
