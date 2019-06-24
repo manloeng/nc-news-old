@@ -53,19 +53,20 @@ describe('formatDate', () => {
 });
 
 describe('makeRefObj', () => {
-	it('returns an empty obj when passed with an empty object', () => {
+	it('returns an empty object when passed with an empty object', () => {
 		const input = [ {} ];
 		const result = makeRefObj(input);
-		expect(result[0]).to.be.an('object');
+		expect(result).to.be.eql({});
 	});
 	it('returns an amended key-value pair in the object', () => {
 		const input = [
 			{
-				belongs_to: 'The People Tracking Every Touch, Pass And Tackle in the World Cup'
+				article_id: 1000,
+				belongs_to: 'Running a Node App'
 			}
 		];
 		const result = makeRefObj(input);
-		expect(result[0].belongs_to).to.be.equal(18);
+		expect(result).to.be.eql({ 'Running a Node App': 1000 });
 	});
 });
 
