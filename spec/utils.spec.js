@@ -97,7 +97,7 @@ describe('formatComments', () => {
 	it('returns the converted date when passed with multiple Unix timestamp in an array', () => {
 		const input = [ { created_at: 1471522072389 } ];
 		const result = formatComments(input);
-		expect(result).to.be.eql({ created_at: new Date(1471522072389) });
+		expect(result).to.be.eql([ { created_at: new Date(1471522072389) } ]);
 	});
 	it('returns the converted date when passed with multiple Unix timestamp in an array', () => {
 		const input = [ { created_at: 0 }, { created_at: 1561384201 }, { created_at: 1561303241 } ];
