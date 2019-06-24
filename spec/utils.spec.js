@@ -52,6 +52,12 @@ describe('formatDate', () => {
 	});
 });
 
-describe('makeRefObj', () => {});
+describe('makeRefObj', () => {
+	it('returns an empty obj when passed with an empty object', () => {
+		const input = {};
+		const result = makeRefObj(input);
+		expect(result).to.be.an('object');
+	});
+});
 
 describe('formatComments', () => {});
