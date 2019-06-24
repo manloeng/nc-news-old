@@ -1,6 +1,8 @@
 exports.formatDate = (list) => {
 	if (!list) return null;
-	list[0].created_at = new Date(list[0].created_at);
+	list.forEach((item) => {
+		item.created_at = new Date(item.created_at);
+	});
 	return list;
 };
 
