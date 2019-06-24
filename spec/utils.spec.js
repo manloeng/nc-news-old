@@ -11,11 +11,15 @@ describe('formatDate', () => {
 		const result = formatDate(input);
 		expect(result).to.be.eql([ { created_at: new Date(0) } ]);
 	});
-	// it('returns the converted date when passed with multiple Unix timestamp in an array', () => {
-	// 	const input = [ { created_at: 0 }, { created_at: 1561384201 }, { created_at: 1561303241 } ];
-	// 	const result = formatDate(input);
-	// 	expect(result).to.be.eql(new Date(0));
-	// });
+	it('returns the converted date when passed with multiple Unix timestamp in an array', () => {
+		const input = [ { created_at: 0 }, { created_at: 1561384201 }, { created_at: 1561303241 } ];
+		const result = formatDate(input);
+		expect(result).to.be.eql([
+			{ created_at: new Date(0) },
+			{ created_at: new Date(1561384201) },
+			{ created_at: new Date(1561303241) }
+		]);
+	});
 });
 
 describe('makeRefObj', () => {});
