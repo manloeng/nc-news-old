@@ -99,20 +99,29 @@ describe('formatComments', () => {
 		const result = formatComments(input);
 		expect(result).to.be.eql({ created_at: new Date(1471522072389) });
 	});
-	it('returns an amended key-value pair in the object', () => {
-		const articleRef = {
-			'Running a Node App': 1,
-			'Running away': 2,
-			'Running so far': 3,
-			'Running for your dream': 4,
-			'Run while you can': 5
-		};
-		const input = [
-			{
-				belongs_to: 'Running a Node App'
-			}
-		];
-		const result = makeRefObj(input, articleRef);
-		expect(result).to.be.eql({ article_id: 1 });
+	it('returns the converted date when passed with multiple Unix timestamp in an array', () => {
+		const input = [ { created_at: 0 }, { created_at: 1561384201 }, { created_at: 1561303241 } ];
+		const result = formatComments(input);
+		expect(result).to.be.eql([
+			{ created_at: new Date(0) },
+			{ created_at: new Date(1561384201) },
+			{ created_at: new Date(1561303241) }
+		]);
 	});
+	// it('returns an amended key-value pair in the object', () => {
+	// 	const articleRef = {
+	// 		'Running a Node App': 1,
+	// 		'Running away': 2,
+	// 		'Running so far': 3,
+	// 		'Running for your dream': 4,
+	// 		'Run while you can': 5
+	// 	};
+	// 	const input = [
+	// 		{
+	// 			belongs_to: 'Running a Node App'
+	// 		}
+	// 	];
+	// 	const result = makeRefObj(input, articleRef);
+	// 	expect(result).to.be.eql({ article_id: 1 });
+	// });
 });
