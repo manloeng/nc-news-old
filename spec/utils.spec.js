@@ -99,4 +99,20 @@ describe('formatComments', () => {
 		const result = formatComments(input);
 		expect(result).to.be.eql({ created_at: new Date(1471522072389) });
 	});
+	it('returns an amended key-value pair in the object', () => {
+		const articleRef = {
+			'Running a Node App': 1,
+			'Running away': 2,
+			'Running so far': 3,
+			'Running for your dream': 4,
+			'Run while you can': 5
+		};
+		const input = [
+			{
+				belongs_to: 'Running a Node App'
+			}
+		];
+		const result = makeRefObj(input, articleRef);
+		expect(result).to.be.eql({ article_id: 1 });
+	});
 });
