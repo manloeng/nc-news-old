@@ -9,7 +9,9 @@ exports.formatDate = (list) => {
 exports.makeRefObj = (list) => {
 	if (!Object.keys(list[0]).length) return {};
 	const newRefObj = {};
-	newRefObj[list[0].belongs_to] = list[0].article_id;
+	list.forEach((article) => {
+		newRefObj[article.belongs_to] = article.article_id;
+	});
 	return newRefObj;
 };
 
