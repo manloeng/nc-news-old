@@ -146,4 +146,25 @@ describe('formatComments', () => {
 		const result = formatComments(input, articleRef);
 		expect(result).to.be.eql([ { article_id: 10 }, { article_id: 55 }, { article_id: 333 } ]);
 	});
+	it('returns all the key-value pair in the object including the newly ammended ones', () => {
+		const articleRef = {
+			'Running a Node App': 10,
+			'Running away': 22,
+			'Running so far': 333,
+			'Running for your dream': 14,
+			'Run while you can': 55
+		};
+		const input = [
+			{
+				body:
+					'Itaque quisquam est similique et est perspiciatis reprehenderit voluptatem autem. Voluptatem accusantium eius error adipisci quibusdam doloribus.',
+				belongs_to: 'Running away',
+				created_by: 'tickle122',
+				votes: -1,
+				created_at: 1468087638932
+			}
+		];
+		const result = formatComments(input, articleRef);
+		expect(result[0]).to.contain.keys('body', 'article_id', 'created_by', 'votes', 'created_at');
+	});
 });
