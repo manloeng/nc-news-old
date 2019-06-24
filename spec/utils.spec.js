@@ -53,7 +53,7 @@ describe('formatDate', () => {
 });
 
 describe('makeRefObj', () => {
-	it('returns an empty object when passed with an empty object', () => {
+	it('returns an empty object when passed with an array containing an empty object', () => {
 		const input = [ {} ];
 		const result = makeRefObj(input);
 		expect(result).to.be.eql({});
@@ -88,4 +88,10 @@ describe('makeRefObj', () => {
 	});
 });
 
-describe('formatComments', () => {});
+describe('formatComments', () => {
+	it('returns an empty object when passed with an array containing an empty object', () => {
+		const input = [ {} ];
+		const result = makeRefObj(input);
+		expect(result).to.be.eql({});
+	});
+});
