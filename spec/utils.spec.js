@@ -94,4 +94,9 @@ describe('formatComments', () => {
 		const result = formatComments(input);
 		expect(result).to.be.eql({});
 	});
+	it('returns an empty object when passed with an array containing an empty object', () => {
+		const input = [ { created_at: 1471522072389 } ];
+		const result = formatComments(input);
+		expect(result).to.be.eql(new Date(1471522072389));
+	});
 });
