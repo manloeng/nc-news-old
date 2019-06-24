@@ -1,5 +1,7 @@
-exports.formatDate = list => {};
+exports.formatDate = (list) => {
+	return null;
+};
 
-exports.makeRefObj = list => {};
+exports.makeRefObj = (list) => {};
 
 exports.formatComments = (comments, articleRef) => {};
