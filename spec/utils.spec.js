@@ -68,6 +68,24 @@ describe('makeRefObj', () => {
 		const result = makeRefObj(input);
 		expect(result).to.be.eql({ 'Running a Node App': 1000 });
 	});
+	it('returns an amended key-value pair in the object when passed with multiple articles', () => {
+		const input = [
+			{
+				article_id: 1000,
+				belongs_to: 'Running a Node App'
+			},
+			{
+				article_id: 10,
+				belongs_to: 'Running away'
+			},
+			{
+				article_id: 1,
+				belongs_to: 'Running so far'
+			}
+		];
+		const result = makeRefObj(input);
+		expect(result).to.be.eql({ 'Running a Node App': 1000, 'Running away': 10, 'Running so far': 1 });
+	});
 });
 
 describe('formatComments', () => {});
