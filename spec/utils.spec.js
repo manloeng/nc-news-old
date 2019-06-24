@@ -54,24 +54,19 @@ describe('formatDate', () => {
 
 describe('makeRefObj', () => {
 	it('returns an empty obj when passed with an empty object', () => {
-		const input = {};
+		const input = [ {} ];
 		const result = makeRefObj(input);
-		expect(result).to.be.an('object');
+		expect(result[0]).to.be.an('object');
 	});
 	it('returns an amended key-value pair in the object', () => {
-		const input = {
-			belongs_to: 'The People Tracking Every Touch, Pass And Tackle in the World Cup'
-		};
+		const input = [
+			{
+				belongs_to: 'The People Tracking Every Touch, Pass And Tackle in the World Cup'
+			}
+		];
 		const result = makeRefObj(input);
-		expect(result.belongs_to).to.be.equal(18);
+		expect(result[0].belongs_to).to.be.equal(18);
 	});
-	// it('returns an amended key-value pair in the object', () => {
-	// 	const input = {
-	// 		created_at: 1468087638932
-	// 	};
-	// 	const result = makeRefObj(input);
-	// 	expect(result.created_at).to.be.equal(new Date(1468087638932));
-	// });
 });
 
 describe('formatComments', () => {});
