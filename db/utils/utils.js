@@ -7,7 +7,10 @@ exports.formatDate = (list) => {
 };
 
 exports.makeRefObj = (list) => {
-	return {};
+	if (!Object.keys(list[0]).length) return {};
+	const newRefObj = {};
+	newRefObj[list[0].belongs_to] = list[0].article_id;
+	return newRefObj;
 };
 
 exports.formatComments = (comments, articleRef) => {};
