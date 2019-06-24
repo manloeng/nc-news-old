@@ -1,6 +1,6 @@
 exports.formatDate = (list) => {
 	if (!list) return null;
-	let date = new Date(list[0]);
+	let date = new Date(list[0].created_at);
 	return date;
 };
 
