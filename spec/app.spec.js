@@ -66,6 +66,12 @@ describe('/', () => {
 						expect(res.body.msg).to.equal('Invalid article ID');
 					});
 				});
+
+				it("GET status:404 when passed with an article id that's not in the database", () => {
+					return request(app).get('/api/articles/999').expect(404).then((res) => {
+						expect(res.body.msg).to.equal('Article ID Not Found');
+					});
+				});
 			});
 		});
 	});
