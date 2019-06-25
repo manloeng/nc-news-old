@@ -23,9 +23,10 @@ exports.seed = function(knex, Promise) {
 				// console.log(articleRows);
 				const articleRef = makeRefObj(articleRows);
 
-				console.log(articleRef);
+				// console.log(articleRef);
 				const formattedComments = formatComments(commentData, articleRef);
-				return knex('comments').insert(formattedComments);
+				return knex('comments').insert(formattedComments).returning('*');
 			});
+		// .then((results) => console.log(results));
 	});
 };
