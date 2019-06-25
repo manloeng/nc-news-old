@@ -28,7 +28,12 @@ exports.formatComments = (comments, articleRef) => {
 				comment.article_id = articleRef[comment.belongs_to];
 				delete comment.belongs_to;
 			}
+			if (key === 'created_by') {
+				comment.author = comment.created_by;
+				delete comment.created_by;
+			}
 		});
 	});
+	// console.log(comments);
 	return comments;
 };
