@@ -31,8 +31,9 @@ describe('/', () => {
 
 		describe('/users/:username', () => {
 			it('returns a single users data', () => {
-				return request(app).get('/api/users/sam').expect(200).then((res) => {
-					expect(res.body).to.contain.keys('username', 'name', 'avatar_url');
+				return request(app).get('/api/users/icellusedkars').expect(200).then((res) => {
+					expect(res.body.user).to.contain.keys('username', 'name', 'avatar_url');
+					expect(res.body.user.username).to.equal('icellusedkars');
 				});
 			});
 		});
