@@ -44,10 +44,11 @@ describe('/', () => {
 		});
 
 		describe('/articles', () => {
-			describe.only('/:aricle_id', () => {
+			describe.only('/:article_id', () => {
 				it('GET status: 200, when passed with a valid article id', () => {
 					return request(app).get('/api/articles/1').expect(200).then((res) => {
-						expect(res.body.articles[0]).to.contain.keys('title', 'topic', 'author', 'body', 'created_at', 'votes');
+						// console.log(res.body, '<----- res body');
+						expect(res.body.article).to.contain.keys('title', 'topic', 'author', 'body', 'created_at', 'votes');
 					});
 				});
 			});
