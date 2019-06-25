@@ -72,6 +72,23 @@ describe('/', () => {
 						expect(res.body.msg).to.equal('Article ID Not Found');
 					});
 				});
+
+				it('PATCH status:202 when the article vote has been sucessfully updated', () => {
+					return request(app).patch('/api/articles/1').send({ inc_votes: 1 }).expect(202).then((res) => {
+						console.log(res.body);
+						expect(res.body.article).to.contain.keys(
+							'article_id',
+							'title',
+							'topic',
+							'author',
+							'body',
+							'created_at',
+							'vote',
+							'comment_count'
+						);
+						expect(res.body.article.vote).to.equal(101);
+					});
+				});
 			});
 		});
 	});
