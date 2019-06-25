@@ -10,7 +10,16 @@ const fetchArticles = () => {
 
 const fetchArticlesById = (article, length) => {
 	// console.log('fetchArticlesByID here');
+
+	// console.log(article);
+	// console.log(length);
 	return connection.select('*').from('articles').where('article_id', article.article_id).then((formattedArticle) => {
+		if (!length) {
+			return Promise.reject({
+				status: 404,
+				msg: 'Article ID Not Found'
+			});
+		}
 		formattedArticle[0].comment_count = length;
 		return formattedArticle[0];
 	});

@@ -13,9 +13,11 @@ const sendArticlesById = (req, res, next) => {
 		.then((result) => {
 			const commentLength = result.length;
 			// console.log(commentLength);
-			fetchArticlesById(article_id, commentLength).then((article) => {
-				res.status(200).send({ article });
-			});
+			fetchArticlesById(article_id, commentLength)
+				.then((article) => {
+					res.status(200).send({ article });
+				})
+				.catch(next);
 		})
 		.catch(next);
 };
