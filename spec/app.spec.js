@@ -23,7 +23,9 @@ describe('/', () => {
 	describe('/api', () => {
 		describe('/topics', () => {
 			it('', () => {
-				return request(app).get('/api/topics').expect(200);
+				return request(app).get('/api/topics').expect(200).then((res) => {
+					expect(res.body.topics[0]).to.contain.keys('slug', 'description');
+				});
 			});
 		});
 	});
