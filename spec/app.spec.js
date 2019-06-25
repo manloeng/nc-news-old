@@ -14,6 +14,12 @@ describe('/', () => {
 		connection.seed.run();
 	});
 
+	it('/not-a-route', () => {
+		return request(app).get('/not-a-route').expect(404).then((res) => {
+			expect(res.body.msg).to.equal('Page Not Found');
+		});
+	});
+
 	describe('/api', () => {
 		describe('/topics', () => {
 			it('', () => {
