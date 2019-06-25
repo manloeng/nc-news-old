@@ -44,7 +44,7 @@ describe('/', () => {
 		});
 
 		describe('/articles', () => {
-			describe.only('/:article_id', () => {
+			describe('/:article_id', () => {
 				it('GET status: 200, when passed with a valid article id', () => {
 					return request(app).get('/api/articles/1').expect(200).then((res) => {
 						// console.log(res.body, '<----- res body');
@@ -73,9 +73,9 @@ describe('/', () => {
 					});
 				});
 
-				it('PATCH status:202 when the article vote has been sucessfully updated', () => {
+				it.only('PATCH status:202 when the article vote has been sucessfully updated', () => {
 					return request(app).patch('/api/articles/1').send({ inc_votes: 1 }).expect(202).then((res) => {
-						console.log(res.body);
+						// console.log(res, 'HERE testing');
 						expect(res.body.article).to.contain.keys(
 							'article_id',
 							'title',

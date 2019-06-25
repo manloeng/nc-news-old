@@ -13,8 +13,9 @@ const fetchArticlesById = (article, length) => {
 	});
 };
 
-const updateArticleVote = () => {
-	console.log('updating votes here');
+const updateArticleVote = (article) => {
+	// console.log(article);
+	// return connection.select('*').from('articles').where('article_id', article.article_id).then(console.log);
 };
 
 module.exports = { fetchArticlesById, updateArticleVote };

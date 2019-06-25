@@ -16,8 +16,9 @@ const sendArticlesById = (req, res, next) => {
 };
 
 const changeArticleVote = (req, res, next) => {
-	console.log('changing article vote here');
-	updateArticleVote();
+	const article_id = req.params;
+	// console.log(req, '<------');
+	// updateArticleVote(article_id).then();
 };
 
 module.exports = { sendArticlesById, changeArticleVote };
