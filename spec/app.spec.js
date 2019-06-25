@@ -30,10 +30,15 @@ describe('/', () => {
 		});
 
 		describe('/users/:username', () => {
-			it('returns a single users data', () => {
+			it('GET status:200 when passed with a valid users id ', () => {
 				return request(app).get('/api/users/icellusedkars').expect(200).then((res) => {
 					expect(res.body.user).to.contain.keys('username', 'name', 'avatar_url');
 					expect(res.body.user.username).to.equal('icellusedkars');
+				});
+			});
+			it('GET status:400 when passed with a invalid users id', () => {
+				return request(app).get('/api/users/andrew').expect(400).then((res) => {
+					expect(res.body.msg).to.equal('Bad request');
 				});
 			});
 		});
