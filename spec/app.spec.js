@@ -51,6 +51,12 @@ describe('/', () => {
 						expect(res.body.article).to.contain.keys('title', 'topic', 'author', 'body', 'created_at', 'votes');
 					});
 				});
+
+				it('GET status:400 when passed with a invalid article id', () => {
+					return request(app).get('/api/users/andrew').expect(400).then((res) => {
+						expect(res.body.msg).to.equal('Invalid article ID');
+					});
+				});
 			});
 		});
 	});
