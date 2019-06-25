@@ -11,7 +11,7 @@ describe('/', () => {
 		connection.destroy();
 	});
 	beforeEach(() => {
-		connection.seed.run();
+		return connection.seed.run();
 	});
 
 	it('/not-a-route', () => {
@@ -23,9 +23,7 @@ describe('/', () => {
 	describe('/api', () => {
 		describe('/topics', () => {
 			it('', () => {
-				return request(app).get('/api/topics').expect(200).then((results) => {
-					console.log(results);
-				});
+				return request(app).get('/api/topics').expect(200);
 			});
 		});
 	});
