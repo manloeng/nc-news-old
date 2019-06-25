@@ -7,7 +7,12 @@ const sendArticles = () => {
 
 const sendArticlesById = (req, res, next) => {
 	// console.log('sendArticlesByID here');
-	fetchArticlesById();
+	const article_id = req.params;
+	fetchArticlesById(article_id)
+		.then((article) => {
+			res.status(200).send({ article });
+		})
+		.catch(next);
 };
 
 module.exports = { sendArticles, sendArticlesById };
