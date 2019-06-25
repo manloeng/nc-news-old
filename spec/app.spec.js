@@ -22,7 +22,7 @@ describe('/', () => {
 
 	describe('/api', () => {
 		describe('/topics', () => {
-			it('return the topics data', () => {
+			it('GET status:200, containing all the topics data', () => {
 				return request(app).get('/api/topics').expect(200).then((res) => {
 					expect(res.body.topics[0]).to.contain.keys('slug', 'description');
 				});
@@ -39,6 +39,16 @@ describe('/', () => {
 			it('GET status:400 when passed with a invalid users id', () => {
 				return request(app).get('/api/users/andrew').expect(400).then((res) => {
 					expect(res.body.msg).to.equal('Invalid username');
+				});
+			});
+		});
+
+		describe('/articles', () => {
+			describe.only('/:aricle_id', () => {
+				it('GET status: 200, when passed with a valid article id', () => {
+					return request(app).get('/api/articles/1').expect(200).then((res) => {
+						expect(res.body.articles[0]).to.contain.keys('title', 'topic', 'author', 'body', 'created_at', 'votes');
+					});
 				});
 			});
 		});
