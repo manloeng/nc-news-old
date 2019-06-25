@@ -22,9 +22,24 @@ describe('/', () => {
 
 	describe('/api', () => {
 		describe('/topics', () => {
-			it('', () => {
+			it('return the topics data', () => {
 				return request(app).get('/api/topics').expect(200).then((res) => {
 					expect(res.body.topics[0]).to.contain.keys('slug', 'description');
+				});
+			});
+		});
+
+		describe('/users/:username', () => {
+			it('returns a single users data', () => {
+				return request(app).get('/api/users/sam').expect(200).then((res) => {
+					const user = {
+						username: 'butter_bridge',
+						name: 'sam',
+						avatar_url: 'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg'
+					};
+					console.log(res.body);
+					expect(res.body).to.contain.keys('username', 'name', 'avatar_url');
+					// expect(res.body).to.contain.keys('username', 'name', 'avatar_url');
 				});
 			});
 		});
