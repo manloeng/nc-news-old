@@ -1,5 +1,7 @@
+const connection = require('../db/connection.js');
+
 const fetchTopics = () => {
-	console.log('fetching topics here');
+	return connection.select('*').from('topics');
 };
 
 module.exports = { fetchTopics };
