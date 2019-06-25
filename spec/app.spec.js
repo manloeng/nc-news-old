@@ -53,7 +53,7 @@ describe('/', () => {
 				});
 
 				it('GET status:400 when passed with a invalid article id', () => {
-					return request(app).get('/api/users/andrew').expect(400).then((res) => {
+					return request(app).get('/api/articles/andrew').expect(400).then((res) => {
 						expect(res.body.msg).to.equal('Invalid article ID');
 					});
 				});
