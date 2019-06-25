@@ -124,6 +124,11 @@ describe('formatComments', () => {
 		const result = formatComments(input, articleRef);
 		expect(result).to.be.eql([ { article_id: 1 } ]);
 	});
+	it('returns a new key "author" in the object ', () => {
+		const input = [ { created_by: 'tickle122' } ];
+		const result = formatComments(input);
+		expect(result).to.be.eql([ { author: 'tickle122' } ]);
+	});
 	it('returns multiple amended key-value pair in the object', () => {
 		const articleRef = {
 			'Running a Node App': 10,
@@ -165,6 +170,6 @@ describe('formatComments', () => {
 			}
 		];
 		const result = formatComments(input, articleRef);
-		expect(result[0]).to.contain.keys('body', 'article_id', 'created_by', 'votes', 'created_at');
+		expect(result[0]).to.contain.keys('body', 'article_id', 'author', 'votes', 'created_at');
 	});
 });
