@@ -94,8 +94,8 @@ describe('/', () => {
 						});
 				});
 
-				it('PATCH status:400 when trying to update valid keys-value pairs that is not "vote"', () => {
-					return connection
+				it.only('PATCH status:400 when trying to update valid keys-value pairs that is not "vote"', () => {
+					return request(app)
 						.patch('/api/articles/1')
 						.send({
 							author: 'Andrew'
@@ -107,7 +107,7 @@ describe('/', () => {
 				});
 
 				it('PATCH status:404 when trying to update invalid keys value pair', () => {
-					return connection
+					return request(app)
 						.patch('/api/articles/1')
 						.send({
 							author_name: 'Andrew'
