@@ -122,21 +122,23 @@ describe('/', () => {
 						});
 				});
 
-				it('PATCH status:404 when trying to update invalid keys value pair', () => {
+				it('PATCH status:400 when trying to update invalid keys value pair', () => {
 					return request(app)
 						.patch('/api/articles/1')
 						.send({
 							author_name: 'Andrew'
 						})
-						.expect(404)
+						.expect(400)
 						.then((res) => {
-							expect(res.body.msg).to.equal('The key value is not found');
+							expect(res.body.msg).to.equal('Invalid Key');
 						});
 				});
 
-				it('PATCH status:404 when passed with a invalid article id', () => {
-					return request(app).patch('/api/articles/andrew').expect(404).then((res) => {
-						expect(res.body.msg).to.equal('Bad Request');
+				it('PATCH status:400 when passed with a invalid article id', () => {
+					return request(app).patch('/api/articles/andrew').expect(400).then((res) => {
+						expect(res.body.msg).to.equal(
+							'update "articles" set "votes" = "votes" + $1 where "article_id" = $2 returning * - invalid input syntax for integer: "andrew"'
+						);
 					});
 				});
 
