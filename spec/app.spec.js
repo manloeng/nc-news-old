@@ -73,22 +73,44 @@ describe('/', () => {
 					});
 				});
 
-				it.only('PATCH status:202 when the article vote has been sucessfully updated', () => {
-					return request(app).patch('/api/articles/1').send({ inc_votes: 1 }).expect(202).then((res) => {
-						// console.log(res, 'HERE testing');
-						expect(res.body.article).to.contain.keys(
-							'article_id',
-							'title',
-							'topic',
-							'author',
-							'body',
-							'created_at',
-							'vote',
-							'comment_count'
-						);
-						expect(res.body.article.vote).to.equal(101);
-					});
+				it('PATCH status:202 when the article vote has been sucessfully updated', () => {
+					return request(app)
+						.patch('/api/articles/1')
+						.send({
+							inc_votes: 1
+						})
+						.expect(202)
+						.then((res) => {
+							console.log(res.body, 'HERE testing');
+							expect(res.body.article).to.contain.keys(
+								'article_id',
+								'title',
+								'topic',
+								'author',
+								'body',
+								'created_at',
+								'vote',
+								'comment_count'
+							);
+							// expect(res.body.article.vote).to.equal(101);
+						});
 				});
+
+				// describe('/comments', () => {
+				// 	it('POST status:201, when a new comment has been created', () => {
+				// 		return request(app)
+				// 			.post('/api/articles/1/comments')
+				// 			.send({
+				// 				username: 'butter_bridge',
+				// 				body: 'Creating something new here'
+				// 			})
+				// 			.expect(201)
+				// 			.then((res) => {
+				// 				console.log(res.body, '<----- test here');
+				// 				expect(res.body.comment).to.contain.keys('username', 'body');
+				// 			});
+				// 	});
+				// });
 			});
 		});
 	});
