@@ -279,6 +279,20 @@ describe('/', () => {
 							expect(res.body.comment.votes).to.equal(17);
 						});
 				});
+
+				it('PATCH status:400 when trying to update valid keys-value pairs using a string', () => {
+					return request(app)
+						.patch('/api/comments/1')
+						.send({
+							inc_votes: 'Andrew'
+						})
+						.expect(400)
+						.then((res) => {
+							expect(res.body.msg).to.equal(
+								'update "comments" set "votes" = "votes" + $1 where "comment_id" = $2 returning * - invalid input syntax for integer: "NaN"'
+							);
+						});
+				});
 			});
 		});
 	});
