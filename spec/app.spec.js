@@ -323,6 +323,12 @@ describe('/', () => {
 						expect(res.body.msg).to.equal('Invalid Keys');
 					});
 				});
+
+				it('PATCH status:400 when trying to update with values', () => {
+					return request(app).patch('/api/comments/1').send({}).expect(400).then((res) => {
+						expect(res.body.msg).to.equal('Require Input');
+					});
+				});
 			});
 		});
 	});
