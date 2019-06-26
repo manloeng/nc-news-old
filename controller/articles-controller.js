@@ -13,7 +13,6 @@ const sendArticlesById = (req, res, next) => {
 const changeArticleVote = (req, res, next) => {
 	const { article_id } = req.params;
 	const body = req.body;
-	// console.log(body);
 	updateArticleVote(article_id, body)
 		.then((article) => {
 			res.status(202).send({ article });
