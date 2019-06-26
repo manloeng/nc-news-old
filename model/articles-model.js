@@ -29,7 +29,6 @@ const updateArticleVote = (article_id, body) => {
 		.returning('*')
 		.then((article) => {
 			for (let i = 0; i < Object.keys(body).length; i++) {
-				console.log(Object.keys(body));
 				if (Object.keys(body)[i] === 'inc_votes') {
 					if (typeof body.inc_votes === 'number') {
 						return article[0];
