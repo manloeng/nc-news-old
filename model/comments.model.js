@@ -52,6 +52,17 @@ const updatingCommentData = (commentObj, body) => {
 						});
 					}
 				}
+			} else if (Object.keys(body).length === 0) {
+				console.log(Object.keys(body).length === 0);
+				return Promise.reject({
+					status: 400,
+					msg: 'Require Input'
+				});
+			} else {
+				return Promise.reject({
+					status: 400,
+					msg: 'Invalid Keys'
+				});
 			}
 		});
 };

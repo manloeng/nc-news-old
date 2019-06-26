@@ -317,6 +317,12 @@ describe('/', () => {
 							expect(res.body.msg).to.equal('Invalid Key Value Pair');
 						});
 				});
+
+				it('PATCH status:400 when trying to update with one valid key and invalid keys value pair', () => {
+					return request(app).patch('/api/comments/1').send({ inc_votes: 1, name: 'Mitch' }).expect(400).then((res) => {
+						expect(res.body.msg).to.equal('Invalid Keys');
+					});
+				});
 			});
 		});
 	});
