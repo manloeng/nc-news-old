@@ -264,5 +264,22 @@ describe('/', () => {
 				});
 			});
 		});
+
+		describe('/comments', () => {
+			describe.only('/:comment_id', () => {
+				it('PATCH status:202 when the comment vote has been sucessfully updated', () => {
+					return request(app)
+						.patch('/api/comments/1')
+						.send({
+							inc_votes: 1
+						})
+						.expect(202)
+						.then((res) => {
+							expect(res.body.comment).to.contain.keys('topic', 'author', 'body', 'created_at', 'votes');
+							expect(res.body.comment.votes).to.equal(17);
+						});
+				});
+			});
+		});
 	});
 });
