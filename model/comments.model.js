@@ -34,7 +34,6 @@ const updatingCommentData = (commentObj, body) => {
 		.returning('*')
 		.then((comment) => {
 			if (Object.keys(body).length === 1) {
-				console.log(Object.keys(body));
 				for (let i = 0; i < Object.keys(body).length; i++) {
 					if (Object.keys(body)[i] === 'inc_votes') {
 						if (typeof body.inc_votes === 'number') {

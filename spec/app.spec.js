@@ -266,7 +266,7 @@ describe('/', () => {
 		});
 
 		describe('/comments', () => {
-			describe.only('/:comment_id', () => {
+			describe('/:comment_id', () => {
 				it('PATCH status:202 when the comment vote has been sucessfully updated', () => {
 					return request(app)
 						.patch('/api/comments/1')
