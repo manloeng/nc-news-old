@@ -25,15 +25,22 @@ const fetchCommentsByArticleId = (article_id, query) => {
 		});
 };
 
-const updatingCommentData = (commentObj, voteCount) => {
+const updatingCommentData = (commentObj, body) => {
 	return connection
 		.select('*')
 		.from('comments')
 		.where('comment_id', commentObj.comment_id)
-		.increment('votes', voteCount.inc_votes)
+		.increment('votes', body.inc_votes)
 		.returning('*')
 		.then((comment) => {
-			return comment[0];
+			if (Object.keys(body)[0] === 'inc_votes') {
+				return comment[0];
+			} else {
+				return Promise.reject({
+					status: 400,
+					msg: 'Invalid Key Value Pair'
+				});
+			}
 		});
 };
 

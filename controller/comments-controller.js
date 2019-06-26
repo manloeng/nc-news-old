@@ -21,8 +21,8 @@ const sendCommentByArticleId = (req, res, next) => {
 
 const sendComment = (req, res, next) => {
 	const commentObj = req.params;
-	const voteCount = req.body;
-	updatingCommentData(commentObj, voteCount)
+	const body = req.body;
+	updatingCommentData(commentObj, body)
 		.then((comment) => {
 			res.status(202).send({ comment });
 		})
