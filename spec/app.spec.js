@@ -293,6 +293,18 @@ describe('/', () => {
 							);
 						});
 				});
+
+				it('PATCH status:400 when trying to update valid keys-value pairs that is not "vote"', () => {
+					return request(app)
+						.patch('/api/comments/1')
+						.send({
+							author: 'Andrew'
+						})
+						.expect(400)
+						.then((res) => {
+							expect(res.body.msg).to.equal('Invalid Key');
+						});
+				});
 			});
 		});
 	});
