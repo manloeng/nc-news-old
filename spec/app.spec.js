@@ -89,7 +89,7 @@ describe('/', () => {
 								'author',
 								'body',
 								'created_at',
-								'vote',
+								'votes',
 								'comment_count'
 							);
 							// expect(res.body.article.vote).to.equal(101);
