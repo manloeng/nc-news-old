@@ -232,6 +232,24 @@ describe('/', () => {
 							expect(res.body).to.be.ascendingBy('author');
 						});
 					});
+
+					xit('GET status:400, when a invalid key is used', () => {
+						return request(app).get('/api/articles/1/comments?sort_by=colour').expect(400).then((res) => {
+							expect(res.body.msg).to.be.equal('Invalid key is used');
+						});
+					});
+
+					xit('GET status:400, when a invalid operator is used', () => {
+						return request(app).get('/api/articles/1/comments?sort_by!==colour').expect(400).then((res) => {
+							expect(res.body.msg).to.be.equal('Invalid operator is used');
+						});
+					});
+
+					xit('GET status:400, when a invalid query is used', () => {
+						return request(app).get('/api/articles/1/comments?create=colour').expect(400).then((res) => {
+							expect(res.body.msg).to.be.equal('Invalid query is used');
+						});
+					});
 				});
 			});
 		});
