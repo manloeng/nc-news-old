@@ -20,11 +20,33 @@ const fetchArticlesById = (article_id) => {
 		});
 };
 
-const updateArticleVote = (article_id, voteCounter) => {
-	return connection.first('*').from('articles').where('article_id', article_id).then((article) => {
-		article.votes = article.votes + voteCounter.inc_votes;
-		return article;
-	});
+const updateArticleVote = (article_id, body) => {
+	return connection
+		.first('*')
+		.from('articles')
+		.where('article_id', article_id)
+		.increment('votes', body.inc_votes)
+		.returning('*')
+		.then((article) => {
+			for (let i = 0; i < Object.keys(body).length; i++) {
+				console.log(Object.keys(body));
+				if (Object.keys(body)[i] === 'inc_votes') {
+					if (typeof body.inc_votes === 'number') {
+						return article[0];
+					} else {
+						return Promise.reject({
+							status: 400,
+							msg: 'Invalid Key Value'
+						});
+					}
+				} else {
+					return Promise.reject({
+						status: 400,
+						msg: 'Invalid Key'
+					});
+				}
+			}
+		});
 };
 
 module.exports = { fetchArticlesById, updateArticleVote };
