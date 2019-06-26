@@ -13,9 +13,12 @@ const fetchArticlesById = (article, length) => {
 	});
 };
 
-const updateArticleVote = (article) => {
-	// console.log(article);
-	// return connection.select('*').from('articles').where('article_id', article.article_id).then(console.log);
+const updateArticleVote = (article, voteCounter, commentLength) => {
+	return connection.first('*').from('articles').where('article_id', article.article_id).then((article) => {
+		article.votes = article.votes + voteCounter.inc_votes;
+		article.comment_count = commentLength;
+		return article;
+	});
 };
 
 module.exports = { fetchArticlesById, updateArticleVote };

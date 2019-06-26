@@ -17,8 +17,14 @@ const sendArticlesById = (req, res, next) => {
 
 const changeArticleVote = (req, res, next) => {
 	const article_id = req.params;
-	// console.log(req, '<------');
-	// updateArticleVote(article_id).then();
+	const voteCounter = req.body;
+	fetchCommentsByArticleId(article_id).then((result) => {
+		const commentLength = result.length;
+		updateArticleVote(article_id, voteCounter, commentLength).then((newArticle) => {
+			// console.log(newArticle);
+			res.status(202).send({ newArticle });
+		});
+	});
 };
 
 module.exports = { sendArticlesById, changeArticleVote };
