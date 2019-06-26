@@ -92,7 +92,7 @@ describe('/', () => {
 								'votes',
 								'comment_count'
 							);
-							// expect(res.body.article.vote).to.equal(101);
+							expect(res.body.article.vote).to.equal(101);
 						});
 				});
 
