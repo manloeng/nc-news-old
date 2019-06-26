@@ -275,7 +275,7 @@ describe('/', () => {
 						})
 						.expect(202)
 						.then((res) => {
-							expect(res.body.comment).to.contain.keys('topic', 'author', 'body', 'created_at', 'votes');
+							expect(res.body.comment).to.contain.keys('comment_id', 'author', 'body', 'created_at', 'votes');
 							expect(res.body.comment.votes).to.equal(17);
 						});
 				});
