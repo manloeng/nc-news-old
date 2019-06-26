@@ -44,10 +44,9 @@ describe('/', () => {
 		});
 
 		describe('/articles', () => {
-			describe('/:article_id', () => {
+			describe.only('/:article_id', () => {
 				it('GET status: 200, when passed with a valid article id', () => {
 					return request(app).get('/api/articles/1').expect(200).then((res) => {
-						// console.log(res.body, '<----- res body');
 						expect(res.body.article).to.contain.keys(
 							'article_id',
 							'title',
@@ -58,6 +57,7 @@ describe('/', () => {
 							'votes',
 							'comment_count'
 						);
+						expect(res.body.article.article_id).to.equal(1);
 					});
 				});
 
