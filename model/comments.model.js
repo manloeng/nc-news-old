@@ -25,4 +25,16 @@ const fetchCommentsByArticleId = (article_id, query) => {
 		});
 };
 
-module.exports = { updateComment, fetchCommentsByArticleId };
+const updatingCommentData = (commentObj, voteCount) => {
+	return connection
+		.select('*')
+		.from('comments')
+		.where('comment_id', commentObj.comment_id)
+		.increment('votes', voteCount.inc_votes)
+		.returning('*')
+		.then((comment) => {
+			return comment[0];
+		});
+};
+
+module.exports = { updateComment, fetchCommentsByArticleId, updatingCommentData };
