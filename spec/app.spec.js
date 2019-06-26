@@ -160,7 +160,7 @@ describe('/', () => {
 					});
 				});
 
-				describe.only('/comments', () => {
+				describe('/comments', () => {
 					it('POST status:201, when a new comment has been created', () => {
 						return request(app)
 							.post('/api/articles/1/comments')
@@ -179,6 +179,30 @@ describe('/', () => {
 									'votes'
 								);
 								expect(res.body.comment.article_id).to.equal(1);
+							});
+					});
+
+					xit('POST status:400 when trying to create a comment with invalid key value pair', () => {
+						return request(app)
+							.post('/api/articles/1/comments')
+							.send({
+								author: 123
+							})
+							.expect(400)
+							.then((res) => {
+								expect(res.body.msg).to.equal('Invalid Key');
+							});
+					});
+
+					xit('POST status:400 when trying to create a comment with one valid key and invalid keys value pair', () => {
+						return request(app)
+							.post('/api/articles/999/comments')
+							.send({
+								author: 'butter_bridge'
+							})
+							.expect(400)
+							.then((res) => {
+								expect(res.body.msg).to.equal('Invalid Article Id');
 							});
 					});
 				});
