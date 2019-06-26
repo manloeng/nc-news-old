@@ -208,7 +208,7 @@ describe('/', () => {
 
 					it('GET status:200, when a getting the newly created comment', () => {
 						return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
-							expect(res.body.comment).to.contain.keys('author', 'body', 'comment_id', 'created_at', 'votes');
+							expect(res.body[0]).to.contain.keys('author', 'body', 'comment_id', 'created_at', 'votes');
 						});
 					});
 				});
