@@ -215,9 +215,15 @@ describe('/', () => {
 						});
 					});
 
-					it('GET status:200, when a valid article_id is used and the comments are sorted in an ascending order by the date its created', () => {
+					it('GET status:200, when a valid article_id is used and the comments are sorted in an ascending order by the date it has been created', () => {
 						return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
 							expect(res.body).to.be.sortedBy('created_at');
+						});
+					});
+
+					it('GET status:200, when a valid article_id is used and the comments are sorted in an descending order by the date it has beencreated', () => {
+						return request(app).get('/api/articles/1/comments?order=desc').expect(200).then((res) => {
+							expect(res.body).to.be.descendingBy('created_at');
 						});
 					});
 				});
