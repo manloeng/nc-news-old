@@ -160,7 +160,7 @@ describe('/', () => {
 					});
 				});
 
-				describe('/comments', () => {
+				describe.only('/comments', () => {
 					it('POST status:201, when a new comment has been created', () => {
 						return request(app)
 							.post('/api/articles/1/comments')
@@ -204,6 +204,12 @@ describe('/', () => {
 							.then((res) => {
 								expect(res.body.msg).to.equal('Invalid Article Id');
 							});
+					});
+
+					it('GET status:200, when a getting the newly created comment', () => {
+						return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
+							expect(res.body.comment).to.contain.keys('author', 'body', 'comment_id', 'created_at', 'votes');
+						});
 					});
 				});
 			});
