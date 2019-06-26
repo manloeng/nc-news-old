@@ -11,15 +11,12 @@ const sendArticlesById = (req, res, next) => {
 };
 
 const changeArticleVote = (req, res, next) => {
-	const article_id = req.params;
+	const { article_id } = req.params;
 	const voteCounter = req.body;
-	// fetchCommentsByArticleId(article_id).then((result) => {
-	// 	const commentLength = result.length;
-	// 	updateArticleVote(article_id, voteCounter, commentLength).then((newArticle) => {
-	// 		// console.log(newArticle);
-	// 		res.status(202).send({ newArticle });
-	// 	});
-	// });
+	updateArticleVote(article_id, voteCounter).then((article) => {
+		console.log(article);
+		res.status(202).send({ article });
+	});
 };
 
 module.exports = { sendArticlesById, changeArticleVote };

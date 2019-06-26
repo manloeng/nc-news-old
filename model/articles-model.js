@@ -20,10 +20,9 @@ const fetchArticlesById = (article_id) => {
 		});
 };
 
-const updateArticleVote = (article, voteCounter, commentLength) => {
-	return connection.first('*').from('articles').where('article_id', article.article_id).then((article) => {
+const updateArticleVote = (article_id, voteCounter) => {
+	return connection.first('*').from('articles').where('article_id', article_id).then((article) => {
 		article.votes = article.votes + voteCounter.inc_votes;
-		article.comment_count = commentLength;
 		return article;
 	});
 };
