@@ -305,6 +305,18 @@ describe('/', () => {
 							expect(res.body.msg).to.equal('Invalid Key Value Pair');
 						});
 				});
+
+				it('PATCH status:400 when trying to update invalid keys value pair', () => {
+					return request(app)
+						.patch('/api/comments/1')
+						.send({
+							author_name: 'Andrew'
+						})
+						.expect(400)
+						.then((res) => {
+							expect(res.body.msg).to.equal('Invalid Key Value Pair');
+						});
+				});
 			});
 		});
 	});
