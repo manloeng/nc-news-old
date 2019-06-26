@@ -14,12 +14,13 @@ const updateComment = (article_id, body) => {
 		});
 };
 
-const fetchCommentsByArticleId = (article_id) => {
+const fetchCommentsByArticleId = (article_id, query) => {
+	console.log(query.order);
 	return connection
 		.select('comment_id', 'votes', 'created_at', 'author', 'body')
 		.from('comments')
 		.where('article_id', article_id.article_id)
-		.orderBy('created_at')
+		.orderBy('created_at', query.order || 'created_at')
 		.then((comment) => {
 			return comment;
 		});
