@@ -96,21 +96,57 @@ describe('/', () => {
 						});
 				});
 
-				// describe('/comments', () => {
-				// 	it('POST status:201, when a new comment has been created', () => {
-				// 		return request(app)
-				// 			.post('/api/articles/1/comments')
-				// 			.send({
-				// 				username: 'butter_bridge',
-				// 				body: 'Creating something new here'
-				// 			})
-				// 			.expect(201)
-				// 			.then((res) => {
-				// 				console.log(res.body, '<----- test here');
-				// 				expect(res.body.comment).to.contain.keys('username', 'body');
-				// 			});
-				// 	});
-				// });
+				it('PATCH status:400 when trying to update valid keys-value pairs that is not "vote"', () => {
+					return connection
+						.patch('/api/articles/1')
+						.send({
+							author: 'Andrew'
+						})
+						.expect(400)
+						.then((res) => {
+							expect(res.body.msg).to.equal('Bad Request');
+						});
+				});
+
+				it('PATCH status:404 when trying to update invalid keys value pair', () => {
+					return connection
+						.patch('/api/articles/1')
+						.send({
+							author_name: 'Andrew'
+						})
+						.expect(404)
+						.then((res) => {
+							expect(res.body.msg).to.equal('The key value is not found');
+						});
+				});
+
+				it('PATCH status:404 when passed with a invalid article id', () => {
+					return request(app).patch('/api/articles/andrew').expect(404).then((res) => {
+						expect(res.body.msg).to.equal('Bad Request');
+					});
+				});
+
+				it("PATCH status:404 when passed with an article id that's not in the database", () => {
+					return request(app).get('/api/articles/999').expect(404).then((res) => {
+						expect(res.body.msg).to.equal('Article ID Not Found');
+					});
+				});
+
+				describe('/comments', () => {
+					it('POST status:201, when a new comment has been created', () => {
+						return request(app)
+							.post('/api/articles/1/comments')
+							.send({
+								username: 'butter_bridge',
+								body: 'Creating something new here'
+							})
+							.expect(201)
+							.then((res) => {
+								console.log(res.body, '<----- test here');
+								expect(res.body.comment).to.contain.keys('username', 'body');
+							});
+					});
+				});
 			});
 		});
 	});
