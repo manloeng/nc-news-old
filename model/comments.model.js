@@ -1,13 +1,5 @@
 const connection = require('../db/connection.js');
 
-// const fetchCommentsByArticleId = (article) => {
-// 	// console.log('fetch comments');
-// 	return connection.select('*').from('comments').where('article_id', article.article_id).then((article) => {
-// 		// console.log(article);
-// 		return article;
-// 	});
-// };
-
 const updateComment = (article_id, body) => {
 	return connection
 		.insert({
@@ -22,4 +14,14 @@ const updateComment = (article_id, body) => {
 		});
 };
 
-module.exports = { updateComment };
+const fetchCommentsByArticleId = (article_id) => {
+	return connection
+		.select('comment_id', 'votes', 'created_at', 'author', 'body')
+		.from('comments')
+		.where('article_id', article_id.article_id)
+		.then((article) => {
+			return article;
+		});
+};
+
+module.exports = { updateComment, fetchCommentsByArticleId };

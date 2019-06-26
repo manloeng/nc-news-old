@@ -1,4 +1,4 @@
-const { updateComment } = require('../model/comments.model.js');
+const { updateComment, fetchCommentsByArticleId } = require('../model/comments.model.js');
 
 const addComment = (req, res, next) => {
 	const article_id = req.params;
@@ -8,4 +8,11 @@ const addComment = (req, res, next) => {
 	});
 };
 
-module.exports = { addComment };
+const sendComment = (req, res, next) => {
+	const article_id = req.params;
+	fetchCommentsByArticleId(article_id).then((comment) => {
+		res.status(200).send(comment);
+	});
+};
+
+module.exports = { addComment, sendComment };
