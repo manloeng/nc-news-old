@@ -81,18 +81,16 @@ describe('/', () => {
 						})
 						.expect(202)
 						.then((res) => {
-							// console.log(res.body, 'HERE testing');
-							expect(res.body.newArticle).to.contain.keys(
+							expect(res.body.article).to.contain.keys(
 								'article_id',
 								'title',
 								'topic',
 								'author',
 								'body',
 								'created_at',
-								'votes',
-								'comment_count'
+								'votes'
 							);
-							expect(res.body.newArticle.votes).to.equal(101);
+							expect(res.body.article.votes).to.equal(101);
 						});
 				});
 
