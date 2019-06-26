@@ -63,7 +63,9 @@ describe('/', () => {
 
 				it('GET status:400 when passed with a invalid article id', () => {
 					return request(app).get('/api/articles/andrew').expect(400).then((res) => {
-						expect(res.body.msg).to.equal('Invalid article ID');
+						expect(res.body.msg).to.equal(
+							'select "articles".*, count("comments"."article_id") as "comment_count" from "articles" inner join "comments" on "articles"."article_id" = "comments"."article_id" where "articles"."article_id" = $1 group by "articles"."article_id" limit $2 - invalid input syntax for integer: "andrew"'
+						);
 					});
 				});
 
@@ -94,7 +96,21 @@ describe('/', () => {
 						});
 				});
 
-				it.only('PATCH status:400 when trying to update valid keys-value pairs that is not "vote"', () => {
+				it('PATCH status:400 when trying to update valid keys-value pairs using a string', () => {
+					return request(app)
+						.patch('/api/articles/1')
+						.send({
+							inc_votes: 'Andrew'
+						})
+						.expect(400)
+						.then((res) => {
+							expect(res.body.msg).to.equal(
+								'update "articles" set "votes" = "votes" + $1 where "article_id" = $2 returning * - invalid input syntax for integer: "NaN"'
+							);
+						});
+				});
+
+				it('PATCH status:400 when trying to update valid keys-value pairs that is not "vote"', () => {
 					return request(app)
 						.patch('/api/articles/1')
 						.send({
@@ -102,7 +118,7 @@ describe('/', () => {
 						})
 						.expect(400)
 						.then((res) => {
-							expect(res.body.msg).to.equal('Bad Request');
+							expect(res.body.msg).to.equal('Invalid Key');
 						});
 				});
 
