@@ -2,9 +2,11 @@ process.env.NODE_ENV = 'test';
 const connection = require('../db/connection.js');
 const request = require('supertest');
 const chai = require('chai');
+const chaiSorted = require('chai-sorted');
 const app = require('../app.js');
 
 const { expect } = chai;
+chai.use(chaiSorted);
 
 describe('/', () => {
 	after(() => {
@@ -206,9 +208,16 @@ describe('/', () => {
 							});
 					});
 
-					it('GET status:200, when a getting the newly created comment', () => {
+					it('GET status:200, when a a valid article_id is used', () => {
 						return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
 							expect(res.body[0]).to.contain.keys('author', 'body', 'comment_id', 'created_at', 'votes');
+							expect(res.body.length).to.equal(13);
+						});
+					});
+
+					it('GET status:200, when a valid article_id is used and the comments are sorted in an ascending order by the date its created', () => {
+						return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
+							expect(res.body).to.be.sortedBy('created_at');
 						});
 					});
 				});
