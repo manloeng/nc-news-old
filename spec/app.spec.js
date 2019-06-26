@@ -197,15 +197,9 @@ describe('/', () => {
 					});
 
 					xit('POST status:400 when trying to create a comment with one valid key and invalid keys value pair', () => {
-						return request(app)
-							.post('/api/articles/999/comments')
-							.send({
-								author: 'butter_bridge'
-							})
-							.expect(400)
-							.then((res) => {
-								expect(res.body.msg).to.equal('Invalid Article Id');
-							});
+						return request(app).post('/api/articles/1/comments').send({}).expect(400).then((res) => {
+							expect(res.body.msg).to.equal('Bad Request, require input');
+						});
 					});
 
 					it('GET status:200, when a a valid article_id is used', () => {
