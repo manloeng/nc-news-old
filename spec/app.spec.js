@@ -134,6 +134,18 @@ describe('/', () => {
 						});
 				});
 
+				it('PATCH status:400 when trying to update with one valid key and invalid keys value pair', () => {
+					return request(app).patch('/api/articles/1').send({ inc_votes: 1, name: 'Mitch' }).expect(400).then((res) => {
+						expect(res.body.msg).to.equal('Invalid Keys');
+					});
+				});
+
+				it('PATCH status:400 when trying to update with values', () => {
+					return request(app).patch('/api/articles/1').send({}).expect(400).then((res) => {
+						expect(res.body.msg).to.equal('Require Input');
+					});
+				});
+
 				it('PATCH status:400 when passed with a invalid article id', () => {
 					return request(app).patch('/api/articles/andrew').expect(400).then((res) => {
 						expect(res.body.msg).to.equal(
