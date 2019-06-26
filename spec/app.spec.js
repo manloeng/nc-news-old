@@ -160,7 +160,7 @@ describe('/', () => {
 					});
 				});
 
-				describe('/comments', () => {
+				describe.only('/comments', () => {
 					it('POST status:201, when a new comment has been created', () => {
 						return request(app)
 							.post('/api/articles/1/comments')
@@ -170,8 +170,15 @@ describe('/', () => {
 							})
 							.expect(201)
 							.then((res) => {
-								console.log(res.body, '<----- test here');
-								expect(res.body.comment).to.contain.keys('username', 'body');
+								expect(res.body.comment).to.contain.keys(
+									'author',
+									'body',
+									'comment_id',
+									'article_id',
+									'created_at',
+									'votes'
+								);
+								expect(res.body.comment.article_id).to.equal(1);
 							});
 					});
 				});
