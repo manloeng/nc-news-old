@@ -28,22 +28,35 @@ const updateArticleVote = (article_id, body) => {
 		.increment('votes', body.inc_votes)
 		.returning('*')
 		.then((article) => {
-			for (let i = 0; i < Object.keys(body).length; i++) {
-				if (Object.keys(body)[i] === 'inc_votes') {
-					if (typeof body.inc_votes === 'number') {
-						return article[0];
+			if (Object.keys(body).length === 1) {
+				for (let i = 0; i < Object.keys(body).length; i++) {
+					if (Object.keys(body)[i] === 'inc_votes') {
+						if (typeof body.inc_votes === 'number') {
+							return article[0];
+						} else {
+							return Promise.reject({
+								status: 400,
+								msg: 'Invalid Key Value'
+							});
+						}
 					} else {
 						return Promise.reject({
 							status: 400,
-							msg: 'Invalid Key Value'
+							msg: 'Invalid Key'
 						});
 					}
-				} else {
-					return Promise.reject({
-						status: 400,
-						msg: 'Invalid Key'
-					});
 				}
+			} else if (Object.keys(body).length === 0) {
+				console.log(Object.keys(body).length === 0);
+				return Promise.reject({
+					status: 400,
+					msg: 'Require Input'
+				});
+			} else {
+				return Promise.reject({
+					status: 400,
+					msg: 'Invalid Keys'
+				});
 			}
 		});
 };
