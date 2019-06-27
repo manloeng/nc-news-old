@@ -76,7 +76,7 @@ describe('/', () => {
 				return Promise.all(methodPromise);
 			});
 		});
-
+		//need more error handling here
 		describe('/articles', () => {
 			describe('CRUD methods', () => {
 				describe('GET request for /articles', () => {
@@ -476,9 +476,23 @@ describe('/', () => {
 						});
 					});
 
-					describe('DELETE Request for /:comment_id', () => {
+					describe.only('DELETE Request for /:comment_id', () => {
 						it('Delete status: 204, removes the comment from the content', () => {
 							return request(app).delete('/api/comments/1').expect(204);
+						});
+
+						it('Delete status: 400, removes the comment from the content', () => {
+							return request(app).delete('/api/comments/andrew').expect(400).then((res) => {
+								expect(res.body.msg).to.equal(
+									'delete from "comments" where "comment_id" = $1 - invalid input syntax for integer: "andrew"'
+								);
+							});
+						});
+
+						it('Delete status: 404, removes the comment from the content', () => {
+							return request(app).delete('/api/comments/9999').expect(404).then((res) => {
+								expect(res.body.msg).to.equal('Page Not Found');
+							});
 						});
 					});
 				});
