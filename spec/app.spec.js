@@ -172,6 +172,18 @@ describe('/', () => {
 					});
 				});
 
+				it('INVALID METHOD status:405,', () => {
+					const invalidMethods = [ 'put', 'post', 'delete' ];
+
+					const methodPromise = invalidMethods.map((method) => {
+						return request(app)[method]('/api/articles/1').expect(405).then((res) => {
+							expect(res.body.msg).to.equal('Method Not Allowed');
+						});
+					});
+
+					return Promise.all(methodPromise);
+				});
+
 				describe('/comments', () => {
 					describe('POST Request for /comments', () => {
 						it('POST status:201, when a new comment has been created', () => {
@@ -260,6 +272,18 @@ describe('/', () => {
 								expect(res.body.msg).to.be.equal('Invalid query is used');
 							});
 						});
+					});
+
+					it('INVALID METHOD status:405,', () => {
+						const invalidMethods = [ 'patch', 'put', 'delete' ];
+
+						const methodPromise = invalidMethods.map((method) => {
+							return request(app)[method]('/api/articles/1/comments').expect(405).then((res) => {
+								expect(res.body.msg).to.equal('Method Not Allowed');
+							});
+						});
+
+						return Promise.all(methodPromise);
 					});
 				});
 			});
@@ -356,7 +380,7 @@ describe('/', () => {
 					});
 				});
 
-				it.only('INVALID METHOD status:405,', () => {
+				it('INVALID METHOD status:405,', () => {
 					const invalidMethods = [ 'get', 'put', 'post' ];
 
 					const methodPromise = invalidMethods.map((method) => {
@@ -365,7 +389,6 @@ describe('/', () => {
 						});
 					});
 
-					// console.log(methodPromise);
 					return Promise.all(methodPromise);
 				});
 			});
