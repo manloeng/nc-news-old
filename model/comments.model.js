@@ -27,14 +27,21 @@ const updateComment = (article_id, body) => {
 };
 
 const fetchCommentsByArticleId = (article_id, query) => {
-	return connection
-		.select('comment_id', 'votes', 'created_at', 'author', 'body')
-		.from('comments')
-		.where('article_id', article_id.article_id)
-		.orderBy(query.sort_by || 'created_at', query.order || 'created_at')
-		.then((comment) => {
-			return comment;
+	if (!Object.keys(query).length || (Object.keys(query)[0] === 'order' || Object.keys(query)[0] === 'sort_by')) {
+		return connection
+			.select('comment_id', 'votes', 'created_at', 'author', 'body')
+			.from('comments')
+			.where('article_id', article_id.article_id)
+			.orderBy(query.sort_by || 'created_at', query.order || 'created_at')
+			.then((comment) => {
+				return comment;
+			});
+	} else {
+		return Promise.reject({
+			status: 400,
+			msg: 'Invalid query is used'
 		});
+	}
 };
 
 const updatingCommentData = (commentObj, body) => {

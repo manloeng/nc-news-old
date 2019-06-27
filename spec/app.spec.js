@@ -348,19 +348,15 @@ describe('/', () => {
 								});
 							});
 
-							xit('GET status:400, when a invalid key is used', () => {
+							it('GET status:400, when a invalid key is used', () => {
 								return request(app).get('/api/articles/1/comments?sort_by=colour').expect(400).then((res) => {
-									expect(res.body.msg).to.be.equal('Invalid key is used');
+									expect(res.body.msg).to.be.equal(
+										'select "comment_id", "votes", "created_at", "author", "body" from "comments" where "article_id" = $1 order by "colour" asc - column "colour" does not exist'
+									);
 								});
 							});
 
-							xit('GET status:400, when a invalid operator is used', () => {
-								return request(app).get('/api/articles/1/comments?sort_by!==colour').expect(400).then((res) => {
-									expect(res.body.msg).to.be.equal('Invalid operator is used');
-								});
-							});
-
-							xit('GET status:400, when a invalid query is used', () => {
+							it('GET status:400, when a invalid query is used', () => {
 								return request(app).get('/api/articles/1/comments?create=colour').expect(400).then((res) => {
 									expect(res.body.msg).to.be.equal('Invalid query is used');
 								});

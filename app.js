@@ -18,6 +18,9 @@ app.use((err, req, res, next) => {
 	if (err.code === '22P02') {
 		res.status(400).send({ msg: err.message });
 	}
+	if (err.code === '42703') {
+		res.status(400).send({ msg: err.message });
+	}
 });
 
 module.exports = app;
