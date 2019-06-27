@@ -14,7 +14,7 @@ const fetchArticles = (query) => {
 		.count({ comment_count: 'comments.article_id' })
 		.from('articles')
 		.join('comments', 'articles.article_id', 'comments.article_id')
-		.orderBy('created_at', query.order_by || 'created_at')
+		.orderBy('created_at', query.order_by || ('created_at', 'desc'))
 		.groupBy('articles.article_id')
 		.then((articles) => {
 			return articles;
