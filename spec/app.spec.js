@@ -86,6 +86,24 @@ describe('/', () => {
 				});
 			});
 
+			it.only(
+				'GET status:200, the article data should be sorted in an ascending order by the date it has been created at',
+				() => {
+					return request(app).get('/api/articles').expect(200).then((res) => {
+						expect(res.body).to.be.ascendingBy('created_at');
+					});
+				}
+			);
+
+			it.only(
+				'GET status:200, the article data should be sorted in an descending order by the date it has been created at when passed with a order_by query of desc ',
+				() => {
+					return request(app).get('/api/articles?order_by=desc').expect(200).then((res) => {
+						expect(res.body).to.be.descendingBy('created_at');
+					});
+				}
+			);
+
 			describe('/:article_id', () => {
 				describe('GET Requests for /:article_id', () => {
 					it('GET status: 200, when passed with a valid article id', () => {

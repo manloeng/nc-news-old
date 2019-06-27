@@ -2,7 +2,7 @@ const { fetchArticlesById, updateArticleVote, fetchArticles } = require('../mode
 const { fetchCommentsByArticleId } = require('../model/comments.model.js');
 
 const sendArticle = (req, res, next) => {
-	fetchArticles().then((articles) => {
+	fetchArticles(req.query).then((articles) => {
 		res.status(200).send(articles);
 	});
 };

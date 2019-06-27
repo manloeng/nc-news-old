@@ -1,6 +1,7 @@
 const connection = require('../db/connection.js');
 
-const fetchArticles = () => {
+const fetchArticles = (query) => {
+	console.log(query);
 	return connection
 		.select(
 			'articles.article_id',
@@ -13,7 +14,7 @@ const fetchArticles = () => {
 		.count({ comment_count: 'comments.article_id' })
 		.from('articles')
 		.join('comments', 'articles.article_id', 'comments.article_id')
-		.orderBy('created_at')
+		.orderBy('created_at', query.order_by || 'created_at')
 		.groupBy('articles.article_id')
 		.then((articles) => {
 			return articles;
