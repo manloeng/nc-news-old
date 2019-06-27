@@ -3,7 +3,7 @@ const { sendArticle, sendArticlesById, changeArticleVote } = require('../control
 const { addComment, sendCommentByArticleId } = require('../controller/comments-controller.js');
 const { sendMethodNotAllowed } = require('../errors/errors.js');
 
-articleRouter.route('/').get(sendArticle);
+articleRouter.route('/').get(sendArticle).all(sendMethodNotAllowed);
 articleRouter.route('/:article_id').get(sendArticlesById).patch(changeArticleVote).all(sendMethodNotAllowed);
 articleRouter.route('/:article_id/comments').post(addComment).get(sendCommentByArticleId).all(sendMethodNotAllowed);
 
