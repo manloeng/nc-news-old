@@ -1,10 +1,6 @@
 const { fetchUsers, fetchUsersById } = require('../model/users-model.js');
 
-const sendUsers = (req, res, next) => {
-	fetchUsers().then((results) => {
-		console.log(results, 'HERE');
-	});
-};
+const sendUsers = (req, res, next) => {};
 
 const sendUsersById = (req, res, next) => {
 	const user = req.params;
