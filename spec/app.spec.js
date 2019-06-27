@@ -158,15 +158,15 @@ describe('/', () => {
 					});
 
 					it('PATCH status:400 when passed with a invalid article id', () => {
-						return request(app).patch('/api/articles/andrew').expect(400).then((res) => {
+						return request(app).patch('/api/articles/andrew').send({ inc_votes: 1 }).expect(400).then((res) => {
 							expect(res.body.msg).to.equal(
 								'update "articles" set "votes" = "votes" + $1 where "article_id" = $2 returning * - invalid input syntax for integer: "andrew"'
 							);
 						});
 					});
 
-					it("PATCH status:404 when passed with an article id that's not in the database", () => {
-						return request(app).get('/api/articles/999').expect(404).then((res) => {
+					it.only("PATCH status:404 when passed with an article id that's not in the database", () => {
+						return request(app).patch('/api/articles/999').send({ inc_votes: 1 }).expect(404).then((res) => {
 							expect(res.body.msg).to.equal('Article ID Not Found');
 						});
 					});
@@ -360,17 +360,29 @@ describe('/', () => {
 					});
 
 					it('PATCH status:400 when passed with a invalid article id', () => {
-						return request(app).patch('/api/comments/andrew').expect(400).then((res) => {
-							expect(res.body.msg).to.equal(
-								'update "comments" set "votes" = "votes" + $1 where "comment_id" = $2 returning * - invalid input syntax for integer: "andrew"'
-							);
-						});
+						return request(app)
+							.patch('/api/comments/andrew')
+							.send({
+								inc_votes: 1
+							})
+							.expect(400)
+							.then((res) => {
+								expect(res.body.msg).to.equal(
+									'update "comments" set "votes" = "votes" + $1 where "comment_id" = $2 returning * - invalid input syntax for integer: "andrew"'
+								);
+							});
 					});
 
 					it("PATCH status:404 when passed with an article id that's not in the database", () => {
-						return request(app).get('/api/comments/999').expect(404).then((res) => {
-							expect(res.body.msg).to.equal('Page Not Found');
-						});
+						return request(app)
+							.patch('/api/comments/999')
+							.send({
+								inc_votes: 1
+							})
+							.expect(404)
+							.then((res) => {
+								expect(res.body.msg).to.equal('Comment not found');
+							});
 					});
 				});
 

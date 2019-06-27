@@ -33,34 +33,41 @@ const updatingCommentData = (commentObj, body) => {
 		.increment('votes', body.inc_votes)
 		.returning('*')
 		.then((comment) => {
-			if (Object.keys(body).length === 1) {
-				for (let i = 0; i < Object.keys(body).length; i++) {
-					if (Object.keys(body)[i] === 'inc_votes') {
-						if (typeof body.inc_votes === 'number') {
-							return comment[0];
+			if (!comment.length) {
+				return Promise.reject({
+					status: 404,
+					msg: 'Comment not found'
+				});
+			} else {
+				if (Object.keys(body).length === 1) {
+					for (let i = 0; i < Object.keys(body).length; i++) {
+						if (Object.keys(body)[i] === 'inc_votes') {
+							if (typeof body.inc_votes === 'number') {
+								return comment[0];
+							} else {
+								return Promise.reject({
+									status: 400,
+									msg: 'Invalid Key Value'
+								});
+							}
 						} else {
 							return Promise.reject({
 								status: 400,
-								msg: 'Invalid Key Value'
+								msg: 'Invalid Key Value Pair'
 							});
 						}
-					} else {
-						return Promise.reject({
-							status: 400,
-							msg: 'Invalid Key Value Pair'
-						});
 					}
+				} else if (Object.keys(body).length === 0) {
+					return Promise.reject({
+						status: 400,
+						msg: 'Require Input'
+					});
+				} else {
+					return Promise.reject({
+						status: 400,
+						msg: 'Invalid Keys'
+					});
 				}
-			} else if (Object.keys(body).length === 0) {
-				return Promise.reject({
-					status: 400,
-					msg: 'Require Input'
-				});
-			} else {
-				return Promise.reject({
-					status: 400,
-					msg: 'Invalid Keys'
-				});
 			}
 		});
 };
