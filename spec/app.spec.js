@@ -74,7 +74,7 @@ describe('/', () => {
 		describe('/articles', () => {
 			it.only('GET status:200, containing all the article data', () => {
 				return request(app).get('/api/articles').expect(200).then((res) => {
-					expect(res.body).to.contain.keys(
+					expect(res.body[0]).to.contain.keys(
 						'author',
 						'title',
 						'article_id',

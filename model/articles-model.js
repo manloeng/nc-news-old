@@ -1,5 +1,25 @@
 const connection = require('../db/connection.js');
 
+const fetchArticles = () => {
+	return connection
+		.select(
+			'articles.article_id',
+			'articles.title',
+			'articles.votes',
+			'articles.topic',
+			'articles.created_at',
+			'articles.author'
+		)
+		.count({ comment_count: 'comments.article_id' })
+		.from('articles')
+		.join('comments', 'articles.article_id', 'comments.article_id')
+		.orderBy('created_at')
+		.groupBy('articles.article_id')
+		.then((articles) => {
+			return articles;
+		});
+};
+
 const fetchArticlesById = (article_id) => {
 	return connection
 		.first('articles.*')
@@ -65,6 +85,11 @@ const updateArticleVote = (article_id, body) => {
 				}
 			}
 		});
+	/* 
+		move some err handling to before connection
+		no for loop
+		destructuring/getting 'first' to work
+		*/
 };
 
-module.exports = { fetchArticlesById, updateArticleVote };
+module.exports = { fetchArticlesById, updateArticleVote, fetchArticles };

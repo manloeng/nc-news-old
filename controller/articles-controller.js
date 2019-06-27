@@ -1,5 +1,11 @@
-const { fetchArticlesById, updateArticleVote } = require('../model/articles-model.js');
+const { fetchArticlesById, updateArticleVote, fetchArticles } = require('../model/articles-model.js');
 const { fetchCommentsByArticleId } = require('../model/comments.model.js');
+
+const sendArticle = (req, res, next) => {
+	fetchArticles().then((articles) => {
+		res.status(200).send(articles);
+	});
+};
 
 const sendArticlesById = (req, res, next) => {
 	const { article_id } = req.params;
@@ -20,4 +26,4 @@ const changeArticleVote = (req, res, next) => {
 		.catch(next);
 };
 
-module.exports = { sendArticlesById, changeArticleVote };
+module.exports = { sendArticlesById, changeArticleVote, sendArticle };
