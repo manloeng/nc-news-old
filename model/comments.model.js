@@ -1,4 +1,5 @@
 const connection = require('../db/connection.js');
+const checkIfExists = require('../errors/check');
 
 const updateComment = (article_id, body) => {
 	if (Object.keys(body)[0] === 'username' && Object.keys(body)[1] === 'body') {
@@ -92,6 +93,8 @@ const updatingCommentData = (commentObj, body) => {
 };
 
 const deleteComment = (commentObj) => {
+	console.log(commentObj.comment_id, '<---- id');
+	const commentExists = commentObj.comment_id ? checkIfExists(commentObj.comment_id, 'comments', 'comment_id') : unll;
 	return connection.into('comments').where('comment_id', commentObj.comment_id).del();
 };
 
