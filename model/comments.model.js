@@ -93,8 +93,11 @@ const updatingCommentData = (commentObj, body) => {
 };
 
 const deleteComment = (commentObj) => {
-	console.log(commentObj.comment_id, '<---- id');
-	const commentExists = commentObj.comment_id ? checkIfExists(commentObj.comment_id, 'comments', 'comment_id') : unll;
+	// const commentExists = commentObj.comment_id ? checkIfExists(commentObj.comment_id, 'comments', 'comment_id') : null;
+	// return Promise.all([ commentExists, comments ]).then(([ commentExists, comments ]) => {
+	// 	console.log(commentExists, '<-----');
+	// 	console.log(comments);
+	// });
 	return connection.into('comments').where('comment_id', commentObj.comment_id).del();
 };
 

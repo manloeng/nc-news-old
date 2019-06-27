@@ -36,9 +36,11 @@ const sendComment = (req, res, next) => {
 
 const removeComment = (req, res, next) => {
 	const commentObj = req.params;
-	deleteComment(commentObj).then((comment) => {
-		res.sendStatus(204);
-	});
+	deleteComment(commentObj)
+		.then((comment) => {
+			res.sendStatus(204);
+		})
+		.catch(next);
 };
 
 module.exports = { addComment, sendCommentByArticleId, sendComment, removeComment };
