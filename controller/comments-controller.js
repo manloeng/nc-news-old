@@ -35,8 +35,10 @@ const sendComment = (req, res, next) => {
 };
 
 const removeComment = (req, res, next) => {
-	console.log('removing comments');
-	deleteComment();
+	const commentObj = req.params;
+	deleteComment(commentObj).then((comment) => {
+		res.sendStatus(204);
+	});
 };
 
 module.exports = { addComment, sendCommentByArticleId, sendComment, removeComment };

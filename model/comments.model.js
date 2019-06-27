@@ -65,8 +65,8 @@ const updatingCommentData = (commentObj, body) => {
 		});
 };
 
-const deleteComment = () => {
-	console.log('deleteComment');
+const deleteComment = (commentObj) => {
+	return connection.into('comments').where('comment_id', commentObj.comment_id).del();
 };
 
 module.exports = { updateComment, fetchCommentsByArticleId, updatingCommentData, deleteComment };
