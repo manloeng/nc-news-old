@@ -350,10 +350,23 @@ describe('/', () => {
 					});
 				});
 
-				describe.only('DELETE Request for /:comment_id', () => {
+				describe('DELETE Request for /:comment_id', () => {
 					it('Delete status: 204, removes the comment from the content', () => {
 						return request(app).delete('/api/comments/1').expect(204);
 					});
+				});
+
+				it.only('INVALID METHOD status:405,', () => {
+					const invalidMethods = [ 'get', 'put', 'post' ];
+
+					const methodPromise = invalidMethods.map((method) => {
+						return request(app)[method]('/api/comments/1').expect(405).then((res) => {
+							expect(res.body.msg).to.equal('Method Not Allowed');
+						});
+					});
+
+					// console.log(methodPromise);
+					return Promise.all(methodPromise);
 				});
 			});
 		});
