@@ -106,23 +106,24 @@ describe('/', () => {
 						});
 					});
 
-					it('GET status:200, the article data should be sorted in an descending order by the author', () => {
-						return request(app).get('/api/articles?order_by=author').expect(200).then((res) => {
+					it('GET status:200, the article data should be filtered in an descending order by the author', () => {
+						return request(app).get('/api/articles?filter=author&username=icellusedkars').expect(200).then((res) => {
 							expect(res.body).to.be.descendingBy('author');
+							expect(res.body).to.have.lengthOf(1);
 						});
 					});
 
-					it('GET status:200, the article data should be sorted in an descending order by the topic', () => {
-						return request(app).get('/api/articles?order_by=topic').expect(200).then((res) => {
+					it('GET status:200, the article data should be filtered in an descending order by the topic', () => {
+						return request(app).get('/api/articles?filter=topic&topic_name=mitch').expect(200).then((res) => {
 							expect(res.body).to.be.descendingBy('topic');
 						});
 					});
 
-					it('GET status:200, the article data should be sorted in an descending order by the author', () => {
-						return request(app).get('/api/articles?order_by=author&sort_by=asc').expect(200).then((res) => {
-							expect(res.body).to.be.ascendingBy('author');
-						});
-					});
+					// it('GET status:200, the article data should be filtered in an descending order by the author', () => {
+					// 	return request(app).get('/api/articles?order_by=author&sort_by=asc').expect(200).then((res) => {
+					// 		expect(res.body).to.be.ascendingBy('author');
+					// 	});
+					// });
 				});
 			});
 			it('INVALID METHOD status:405,', () => {
@@ -276,7 +277,7 @@ describe('/', () => {
 
 				describe('/comments', () => {
 					describe('CRUD methods', () => {
-						describe.only('POST Request for /comments', () => {
+						describe('POST Request for /comments', () => {
 							it('POST status:201, when a new comment has been created', () => {
 								return request(app)
 									.post('/api/articles/1/comments')

@@ -15,6 +15,16 @@ const fetchArticles = (query) => {
 		.join('comments', 'articles.article_id', 'comments.article_id')
 		.orderBy(query.order_by || 'created_at', query.sort_by || ('created_at', 'desc'))
 		.groupBy('articles.article_id')
+		.modify((queryBuilder) => {
+			if (query) {
+				if (query.filter === 'author') {
+					queryBuilder.where(`articles.author`, query.username);
+				}
+				if (query.filter === 'topic') {
+					queryBuilder.where(`articles.topic`, query.topic_name);
+				}
+			}
+		})
 		.then((articles) => {
 			return articles;
 		});
