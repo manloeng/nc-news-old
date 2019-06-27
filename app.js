@@ -10,8 +10,6 @@ app.all('/*', (req, res) => {
 });
 
 app.use((err, req, res, next) => {
-	// console.log(err.message);
-	// console.log(err);
 	if (err.status) {
 		res.status(err.status).send({ msg: err.msg });
 	}
