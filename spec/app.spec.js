@@ -276,7 +276,7 @@ describe('/', () => {
 
 				describe('/comments', () => {
 					describe('CRUD methods', () => {
-						describe('POST Request for /comments', () => {
+						describe.only('POST Request for /comments', () => {
 							it('POST status:201, when a new comment has been created', () => {
 								return request(app)
 									.post('/api/articles/1/comments')
@@ -306,18 +306,15 @@ describe('/', () => {
 									})
 									.expect(400)
 									.then((res) => {
-										expect(res.body.msg).to.equal('Invalid Key');
+										expect(res.body.msg).to.equal('Invalid key has been used');
 									});
 							});
 
-							xit(
-								'POST status:400 when trying to create a comment with one valid key and invalid keys value pair',
-								() => {
-									return request(app).post('/api/articles/1/comments').send({}).expect(400).then((res) => {
-										expect(res.body.msg).to.equal('Bad Request, require input');
-									});
-								}
-							);
+							it('POST status:400 when trying to create a comment with one valid key and invalid keys value pair', () => {
+								return request(app).post('/api/articles/1/comments').send({}).expect(400).then((res) => {
+									expect(res.body.msg).to.equal('Require username and body input');
+								});
+							});
 						});
 
 						describe('GET Request for /comments', () => {

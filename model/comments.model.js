@@ -1,17 +1,29 @@
 const connection = require('../db/connection.js');
 
 const updateComment = (article_id, body) => {
-	return connection
-		.insert({
-			author: body.username,
-			body: body.body,
-			article_id: article_id.article_id
-		})
-		.into('comments')
-		.returning('*')
-		.then((comment) => {
-			return comment[0];
+	if (Object.keys(body)[0] === 'username' && Object.keys(body)[1] === 'body') {
+		return connection
+			.insert({
+				author: body.username,
+				body: body.body,
+				article_id: article_id.article_id
+			})
+			.into('comments')
+			.returning('*')
+			.then((comment) => {
+				return comment[0];
+			});
+	} else if (Object.keys(body).length === 0) {
+		return Promise.reject({
+			status: 400,
+			msg: 'Require username and body input'
 		});
+	} else {
+		return Promise.reject({
+			status: 400,
+			msg: 'Invalid key has been used'
+		});
+	}
 };
 
 const fetchCommentsByArticleId = (article_id, query) => {
