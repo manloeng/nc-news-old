@@ -120,9 +120,13 @@ describe('/', () => {
 					});
 
 					// it('GET status:200, the article data should be filtered in an descending order by the author', () => {
-					// 	return request(app).get('/api/articles?order_by=author&sort_by=asc').expect(200).then((res) => {
-					// 		expect(res.body).to.be.ascendingBy('author');
-					// 	});
+					// 	return request(app)
+					// 		.get('/api/articles?order_by=author&username=icellusedkars&sort_by=asc')
+					// 		.expect(200)
+					// 		.then((res) => {
+					// 			expect(res.body).to.be.ascendingBy('author');
+					// 			expect(res.body).to.have.lengthOf(1);
+					// 		});
 					// });
 				});
 			});
