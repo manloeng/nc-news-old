@@ -267,80 +267,92 @@ describe('/', () => {
 
 		describe('/comments', () => {
 			describe('/:comment_id', () => {
-				it('PATCH status:202 when the comment vote has been sucessfully updated', () => {
-					return request(app)
-						.patch('/api/comments/1')
-						.send({
-							inc_votes: 1
-						})
-						.expect(202)
-						.then((res) => {
-							expect(res.body.comment).to.contain.keys('comment_id', 'author', 'body', 'created_at', 'votes');
-							expect(res.body.comment.votes).to.equal(17);
-						});
-				});
+				describe('PATCH Request for /:comment_id', () => {
+					it('PATCH status:202 when the comment vote has been sucessfully updated', () => {
+						return request(app)
+							.patch('/api/comments/1')
+							.send({
+								inc_votes: 1
+							})
+							.expect(202)
+							.then((res) => {
+								expect(res.body.comment).to.contain.keys('comment_id', 'author', 'body', 'created_at', 'votes');
+								expect(res.body.comment.votes).to.equal(17);
+							});
+					});
 
-				it('PATCH status:400 when trying to update valid keys-value pairs using a string', () => {
-					return request(app)
-						.patch('/api/comments/1')
-						.send({
-							inc_votes: 'Andrew'
-						})
-						.expect(400)
-						.then((res) => {
+					it('PATCH status:400 when trying to update valid keys-value pairs using a string', () => {
+						return request(app)
+							.patch('/api/comments/1')
+							.send({
+								inc_votes: 'Andrew'
+							})
+							.expect(400)
+							.then((res) => {
+								expect(res.body.msg).to.equal(
+									'update "comments" set "votes" = "votes" + $1 where "comment_id" = $2 returning * - invalid input syntax for integer: "NaN"'
+								);
+							});
+					});
+
+					it('PATCH status:400 when trying to update valid keys-value pairs that is not "vote"', () => {
+						return request(app)
+							.patch('/api/comments/1')
+							.send({
+								author: 'Andrew'
+							})
+							.expect(400)
+							.then((res) => {
+								expect(res.body.msg).to.equal('Invalid Key Value Pair');
+							});
+					});
+
+					it('PATCH status:400 when trying to update invalid keys value pair', () => {
+						return request(app)
+							.patch('/api/comments/1')
+							.send({
+								author_name: 'Andrew'
+							})
+							.expect(400)
+							.then((res) => {
+								expect(res.body.msg).to.equal('Invalid Key Value Pair');
+							});
+					});
+
+					it('PATCH status:400 when trying to update with one valid key and invalid keys value pair', () => {
+						return request(app)
+							.patch('/api/comments/1')
+							.send({ inc_votes: 1, name: 'Mitch' })
+							.expect(400)
+							.then((res) => {
+								expect(res.body.msg).to.equal('Invalid Keys');
+							});
+					});
+
+					it('PATCH status:400 when trying to update with values', () => {
+						return request(app).patch('/api/comments/1').send({}).expect(400).then((res) => {
+							expect(res.body.msg).to.equal('Require Input');
+						});
+					});
+
+					it('PATCH status:400 when passed with a invalid article id', () => {
+						return request(app).patch('/api/comments/andrew').expect(400).then((res) => {
 							expect(res.body.msg).to.equal(
-								'update "comments" set "votes" = "votes" + $1 where "comment_id" = $2 returning * - invalid input syntax for integer: "NaN"'
+								'update "comments" set "votes" = "votes" + $1 where "comment_id" = $2 returning * - invalid input syntax for integer: "andrew"'
 							);
 						});
-				});
+					});
 
-				it('PATCH status:400 when trying to update valid keys-value pairs that is not "vote"', () => {
-					return request(app)
-						.patch('/api/comments/1')
-						.send({
-							author: 'Andrew'
-						})
-						.expect(400)
-						.then((res) => {
-							expect(res.body.msg).to.equal('Invalid Key Value Pair');
+					it("PATCH status:404 when passed with an article id that's not in the database", () => {
+						return request(app).get('/api/comments/999').expect(404).then((res) => {
+							expect(res.body.msg).to.equal('Page Not Found');
 						});
-				});
-
-				it('PATCH status:400 when trying to update invalid keys value pair', () => {
-					return request(app)
-						.patch('/api/comments/1')
-						.send({
-							author_name: 'Andrew'
-						})
-						.expect(400)
-						.then((res) => {
-							expect(res.body.msg).to.equal('Invalid Key Value Pair');
-						});
-				});
-
-				it('PATCH status:400 when trying to update with one valid key and invalid keys value pair', () => {
-					return request(app).patch('/api/comments/1').send({ inc_votes: 1, name: 'Mitch' }).expect(400).then((res) => {
-						expect(res.body.msg).to.equal('Invalid Keys');
 					});
 				});
 
-				it('PATCH status:400 when trying to update with values', () => {
-					return request(app).patch('/api/comments/1').send({}).expect(400).then((res) => {
-						expect(res.body.msg).to.equal('Require Input');
-					});
-				});
-
-				it('PATCH status:400 when passed with a invalid article id', () => {
-					return request(app).patch('/api/comments/andrew').expect(400).then((res) => {
-						expect(res.body.msg).to.equal(
-							'update "comments" set "votes" = "votes" + $1 where "comment_id" = $2 returning * - invalid input syntax for integer: "andrew"'
-						);
-					});
-				});
-
-				it("PATCH status:404 when passed with an article id that's not in the database", () => {
-					return request(app).get('/api/comments/999').expect(404).then((res) => {
-						expect(res.body.msg).to.equal('Page Not Found');
+				describe.only('DELETE Request for /:comment_id', () => {
+					it('Delete status: 204, removes the comment from the content', () => {
+						return request(app).delete('/api/comments/1').expect(204);
 					});
 				});
 			});
