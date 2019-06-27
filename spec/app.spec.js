@@ -29,6 +29,17 @@ describe('/', () => {
 					expect(res.body.topics[0]).to.contain.keys('slug', 'description');
 				});
 			});
+			it('INVALID METHOD status:405,', () => {
+				const invalidMethods = [ 'patch', 'put', 'post', 'delete' ];
+
+				const methodPromise = invalidMethods.map((method) => {
+					return request(app)[method]('/api/topics').expect(405).then((res) => {
+						expect(res.body.msg).to.equal('Method Not Allowed');
+					});
+				});
+
+				return Promise.all(methodPromise);
+			});
 		});
 
 		describe('/users/:username', () => {
@@ -39,11 +50,24 @@ describe('/', () => {
 						expect(res.body.user.username).to.equal('icellusedkars');
 					});
 				});
+
 				it('GET status:400 when passed with a invalid users id', () => {
 					return request(app).get('/api/users/andrew').expect(400).then((res) => {
 						expect(res.body.msg).to.equal('Invalid username');
 					});
 				});
+			});
+
+			it('INVALID METHOD status:405,', () => {
+				const invalidMethods = [ 'patch', 'put', 'post', 'delete' ];
+
+				const methodPromise = invalidMethods.map((method) => {
+					return request(app)[method]('/api/users/icellusedkars').expect(405).then((res) => {
+						expect(res.body.msg).to.equal('Method Not Allowed');
+					});
+				});
+
+				return Promise.all(methodPromise);
 			});
 		});
 
@@ -165,9 +189,9 @@ describe('/', () => {
 						});
 					});
 
-					it.only("PATCH status:404 when passed with an article id that's not in the database", () => {
+					it("PATCH status:404 when passed with an article id that's not in the database", () => {
 						return request(app).patch('/api/articles/999').send({ inc_votes: 1 }).expect(404).then((res) => {
-							expect(res.body.msg).to.equal('Article ID Not Found');
+							expect(res.body.msg).to.equal('Article not found');
 						});
 					});
 				});
