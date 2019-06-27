@@ -65,4 +65,8 @@ const updatingCommentData = (commentObj, body) => {
 		});
 };
 
-module.exports = { updateComment, fetchCommentsByArticleId, updatingCommentData };
+const deleteComment = () => {
+	console.log('deleteComment');
+};
+
+module.exports = { updateComment, fetchCommentsByArticleId, updatingCommentData, deleteComment };

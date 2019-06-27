@@ -1,4 +1,9 @@
-const { updateComment, fetchCommentsByArticleId, updatingCommentData } = require('../model/comments.model.js');
+const {
+	updateComment,
+	fetchCommentsByArticleId,
+	updatingCommentData,
+	deleteComment
+} = require('../model/comments.model.js');
 
 const addComment = (req, res, next) => {
 	const articleObj = req.params;
@@ -29,4 +34,9 @@ const sendComment = (req, res, next) => {
 		.catch(next);
 };
 
-module.exports = { addComment, sendCommentByArticleId, sendComment };
+const removeComment = (req, res, next) => {
+	console.log('removing comments');
+	deleteComment();
+};
+
+module.exports = { addComment, sendCommentByArticleId, sendComment, removeComment };
