@@ -136,13 +136,26 @@ describe('/', () => {
 							expect(res.body.msg).to.equal('Invalid query value');
 						});
 					});
+
 					it('GET status:400, when trying to use an invalid username value', () => {
 						return request(app).get('/api/articles?filter=author&username=sam').expect(400).then((res) => {
 							expect(res.body.msg).to.equal('Invalid query value');
 						});
 					});
+
+					it('GET status:400, when trying to use an invalid username value', () => {
+						return request(app).get('/api/articles?filter=author&username=1').expect(400).then((res) => {
+							expect(res.body.msg).to.equal('Invalid query value');
+						});
+					});
+
 					it('GET status:400, when trying to use an invalid topic_name value', () => {
 						return request(app).get('/api/articles?filter=topic&topic_name=sam').expect(400).then((res) => {
+							expect(res.body.msg).to.equal('Invalid query value');
+						});
+					});
+					it('GET status:400, when trying to use an invalid topic_name value', () => {
+						return request(app).get('/api/articles?filter=topic&topic_name=1').expect(400).then((res) => {
 							expect(res.body.msg).to.equal('Invalid query value');
 						});
 					});
