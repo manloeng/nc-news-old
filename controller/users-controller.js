@@ -10,4 +10,4 @@ const sendUsersById = (req, res, next) => {
 		.catch(next);
 };
 
-module.exports = { sendUsers, sendUsersById };
+module.exports = { sendUsersById };
