@@ -145,7 +145,7 @@ describe('/', () => {
 
 					it('GET status:400, when trying to use an invalid topic_name value', () => {
 						return request(app).get('/api/articles?filter=topic&topic_name=sam321').expect(200).then((res) => {
-							expect(res.body.msg).to.eql([]);
+							expect(res.body).to.eql([]);
 						});
 					});
 
