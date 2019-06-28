@@ -1,7 +1,7 @@
 const connection = require('../db/connection.js');
 const checkIfExists = require('../errors/check');
 
-const updateComment = (article_id, body) => {
+const updatesComment = (article_id, body) => {
 	if (Object.keys(body)[0] === 'username' && Object.keys(body)[1] === 'body') {
 		return connection
 			.insert({
@@ -87,4 +87,4 @@ const deleteComment = (commentObj) => {
 	});
 };
 
-module.exports = { updateComment, fetchCommentsByArticleId, updatingCommentData, deleteComment };
+module.exports = { updatesComment, fetchCommentsByArticleId, updatingCommentData, deleteComment };

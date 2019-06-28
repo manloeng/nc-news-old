@@ -1,5 +1,5 @@
 const {
-	updateComment,
+	updatesComment,
 	fetchCommentsByArticleId,
 	updatingCommentData,
 	deleteComment
@@ -8,7 +8,7 @@ const {
 const addComment = (req, res, next) => {
 	const articleObj = req.params;
 	const body = req.body;
-	updateComment(articleObj, body)
+	updatesComment(articleObj, body)
 		.then((comment) => {
 			res.status(201).send({ comment });
 		})
@@ -24,7 +24,7 @@ const sendCommentByArticleId = (req, res, next) => {
 		.catch(next);
 };
 
-const sendComment = (req, res, next) => {
+const updateComment = (req, res, next) => {
 	const commentObj = req.params;
 	const body = req.body;
 	updatingCommentData(commentObj, body)
@@ -43,4 +43,4 @@ const removeComment = (req, res, next) => {
 		.catch(next);
 };
 
-module.exports = { addComment, sendCommentByArticleId, sendComment, removeComment };
+module.exports = { addComment, sendCommentByArticleId, updateComment, removeComment };

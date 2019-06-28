@@ -79,7 +79,7 @@ const fetchArticles = (query) => {
 	}
 };
 
-const fetchArticlesById = (article_id) => {
+const fetchArticleById = (article_id) => {
 	return connection
 		.first('articles.*')
 		.count({ comment_count: 'comments.article_id' })
@@ -130,4 +130,4 @@ const updateArticleVote = (article_id, body) => {
 	}
 };
 
-module.exports = { fetchArticlesById, updateArticleVote, fetchArticles };
+module.exports = { fetchArticleById, updateArticleVote, fetchArticles };
