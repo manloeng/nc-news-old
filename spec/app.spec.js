@@ -96,10 +96,10 @@ describe('/', () => {
 		});
 		describe('/articles', () => {
 			describe('CRUD methods', () => {
-				describe('GET request for /articles', () => {
+				describe.only('GET request for /articles', () => {
 					it('GET status:200, containing all the article data', () => {
 						return request(app).get('/api/articles').expect(200).then((res) => {
-							expect(res.body[0]).to.contain.keys(
+							expect(res.body.articles[0]).to.contain.keys(
 								'author',
 								'title',
 								'article_id',
@@ -113,26 +113,31 @@ describe('/', () => {
 
 					it('GET status:200, the article data should be sorted in an descending order by the date it has been created at', () => {
 						return request(app).get('/api/articles').expect(200).then((res) => {
-							expect(res.body).to.be.descendingBy('created_at');
+							expect(res.body.articles).to.be.descendingBy('created_at');
+						});
+					});
+
+					it('GET status:200, the article data should be sorted by the author and in an descending order', () => {
+						return request(app).get('/api/articles?sort_by=author').expect(200).then((res) => {
+							expect(res.body.articles).to.be.descendingBy('author');
 						});
 					});
 
 					it('GET status:200, the article data should be sorted in an ascending order by the date it has been created at when passed with a order_by query', () => {
-						return request(app).get('/api/articles?sort_by=asc').expect(200).then((res) => {
-							expect(res.body).to.be.ascendingBy('created_at');
+						return request(app).get('/api/articles?order=asc').expect(200).then((res) => {
+							expect(res.body.articles).to.be.ascendingBy('created_at');
 						});
 					});
 
 					it('GET status:200, the article data should be filtered in an descending order by the author', () => {
-						return request(app).get('/api/articles?filter=author&username=icellusedkars').expect(200).then((res) => {
-							expect(res.body).to.be.descendingBy('author');
-							expect(res.body).to.have.lengthOf(1);
+						return request(app).get('/api/articles?sort_by=author&author=icellusedkars').expect(200).then((res) => {
+							expect(res.body.articles).to.be.descendingBy('author');
 						});
 					});
 
 					it('GET status:200, the article data should be filtered in an descending order by the topic', () => {
-						return request(app).get('/api/articles?filter=topic&topic_name=mitch').expect(200).then((res) => {
-							expect(res.body).to.be.descendingBy('topic');
+						return request(app).get('/api/articles?sort_by=topic&topic=mitch').expect(200).then((res) => {
+							expect(res.body.articles).to.be.descendingBy('topic');
 						});
 					});
 
@@ -144,24 +149,28 @@ describe('/', () => {
 
 					it('GET status:400, when trying to use an invalid query value', () => {
 						return request(app).get('/api/articles?sort_by=new').expect(400).then((res) => {
-							expect(res.body.msg).to.equal('Invalid query value');
+							expect(res.body.msg).to.equal(
+								'select "articles"."article_id", "articles"."title", "articles"."votes", "articles"."topic", "articles"."created_at", "articles"."author", count("comments"."article_id") as "comment_count" from "articles" left join "comments" on "articles"."article_id" = "comments"."article_id" group by "articles"."article_id" order by "new" desc - column "new" does not exist'
+							);
 						});
 					});
 
 					it('GET status:400, when trying to use an invalid query value', () => {
-						return request(app).get('/api/articles?filter=new&username=sam').expect(400).then((res) => {
-							expect(res.body.msg).to.equal('Invalid query value');
+						return request(app).get('/api/articles?sort_by=new&username=sam').expect(400).then((res) => {
+							expect(res.body.msg).to.equal(
+								'select "articles"."article_id", "articles"."title", "articles"."votes", "articles"."topic", "articles"."created_at", "articles"."author", count("comments"."article_id") as "comment_count" from "articles" left join "comments" on "articles"."article_id" = "comments"."article_id" group by "articles"."article_id" order by "new" desc - column "new" does not exist'
+							);
 						});
 					});
 
 					it('GET status:404, when trying to use an invalid username value', () => {
-						return request(app).get('/api/articles?filter=author&username=sam').expect(404).then((res) => {
-							expect(res.body.msg).to.eql('User Not Found');
+						return request(app).get('/api/articles?sort_by=author&author=sam').expect(404).then((res) => {
+							expect(res.body.msg).to.eql('Author not found');
 						});
 					});
 
-					it('GET status:404, when trying to use an invalid topic_name value', () => {
-						return request(app).get('/api/articles?filter=topic&topic_name=sam').expect(404).then((res) => {
+					xit('GET status:404, when trying to use an invalid topic_name value', () => {
+						return request(app).get('/api/articles?sort_by=topic&topic=sam').expect(404).then((res) => {
 							expect(res.body.msg).to.eql('Topic Not Found');
 						});
 					});
