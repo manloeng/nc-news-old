@@ -79,7 +79,7 @@ describe('/', () => {
 		//need more error handling here
 		describe('/articles', () => {
 			describe('CRUD methods', () => {
-				describe('GET request for /articles', () => {
+				describe.only('GET request for /articles', () => {
 					it('GET status:200, containing all the article data', () => {
 						return request(app).get('/api/articles').expect(200).then((res) => {
 							expect(res.body[0]).to.contain.keys(
@@ -116,6 +116,12 @@ describe('/', () => {
 					it('GET status:200, the article data should be filtered in an descending order by the topic', () => {
 						return request(app).get('/api/articles?filter=topic&topic_name=mitch').expect(200).then((res) => {
 							expect(res.body).to.be.descendingBy('topic');
+						});
+					});
+
+					it('GET status:400, when trying to use an invalid query', () => {
+						return request(app).get('/api/articles?sorting=asc').expect(400).then((res) => {
+							expect(res.body.msg).to.equal('Bad Request');
 						});
 					});
 
@@ -176,7 +182,7 @@ describe('/', () => {
 						});
 					});
 
-					describe.only('PATCH Request for /:article_id', () => {
+					describe('PATCH Request for /:article_id', () => {
 						it('PATCH status:202 when the article vote has been sucessfully updated', () => {
 							return request(app)
 								.patch('/api/articles/1')
