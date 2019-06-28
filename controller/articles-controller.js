@@ -1,5 +1,4 @@
 const { fetchArticlesById, updateArticleVote, fetchArticles } = require('../model/articles-model.js');
-const { fetchCommentsByArticleId } = require('../model/comments.model.js');
 
 const sendArticle = (req, res, next) => {
 	fetchArticles(req.query)
