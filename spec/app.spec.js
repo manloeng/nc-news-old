@@ -176,7 +176,7 @@ describe('/', () => {
 						});
 					});
 
-					describe('PATCH Request for /:article_id', () => {
+					describe.only('PATCH Request for /:article_id', () => {
 						it('PATCH status:202 when the article vote has been sucessfully updated', () => {
 							return request(app)
 								.patch('/api/articles/1')
@@ -220,7 +220,7 @@ describe('/', () => {
 								})
 								.expect(400)
 								.then((res) => {
-									expect(res.body.msg).to.equal('Invalid Key');
+									expect(res.body.msg).to.equal('Invalid Key Value');
 								});
 						});
 
@@ -232,7 +232,7 @@ describe('/', () => {
 								})
 								.expect(400)
 								.then((res) => {
-									expect(res.body.msg).to.equal('Invalid Key');
+									expect(res.body.msg).to.equal('Invalid Key Value');
 								});
 						});
 
@@ -242,7 +242,7 @@ describe('/', () => {
 								.send({ inc_votes: 1, name: 'Mitch' })
 								.expect(400)
 								.then((res) => {
-									expect(res.body.msg).to.equal('Invalid Keys');
+									expect(res.body.msg).to.equal('Invalid Key Value');
 								});
 						});
 
