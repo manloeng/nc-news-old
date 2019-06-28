@@ -1,7 +1,7 @@
 const connection = require('../db/connection.js');
+const checkIfExists = require('../errors/check');
 
 const fetchArticles = (query) => {
-	console.log(query);
 	const queryKeys = Object.keys(query);
 	if (
 		queryKeys.length === 0 ||
@@ -41,7 +41,29 @@ const fetchArticles = (query) => {
 					}
 				})
 				.then((articles) => {
-					return articles;
+					if (query.username) {
+						const userExists = query.username ? checkIfExists(query.username, 'articles', 'author') : null;
+						return Promise.all([ userExists, articles ]).then(([ userExists, articles ]) => {
+							if (userExists === false) {
+								return Promise.reject({
+									status: 404,
+									msg: 'User Not Found'
+								});
+							} else return articles;
+						});
+					} else if (query.topic_name) {
+						const topicExists = query.topic_name ? checkIfExists(query.topic_name, 'articles', 'topic') : null;
+						return Promise.all([ topicExists, articles ]).then(([ topicExists, articles ]) => {
+							if (topicExists === false) {
+								return Promise.reject({
+									status: 404,
+									msg: 'Topic Not Found'
+								});
+							} else return articles;
+						});
+					} else {
+						return articles;
+					}
 				});
 		} else {
 			return Promise.reject({

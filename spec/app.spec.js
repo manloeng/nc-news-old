@@ -76,10 +76,9 @@ describe('/', () => {
 				return Promise.all(methodPromise);
 			});
 		});
-		//need more error handling here
 		describe('/articles', () => {
 			describe('CRUD methods', () => {
-				describe.only('GET request for /articles', () => {
+				describe('GET request for /articles', () => {
 					it('GET status:200, containing all the article data', () => {
 						return request(app).get('/api/articles').expect(200).then((res) => {
 							expect(res.body[0]).to.contain.keys(
@@ -137,15 +136,15 @@ describe('/', () => {
 						});
 					});
 
-					it('GET status:400, when trying to use an invalid username value', () => {
-						return request(app).get('/api/articles?filter=author&username=sam123').expect(200).then((res) => {
-							expect(res.body).to.eql([]);
+					it('GET status:404, when trying to use an invalid username value', () => {
+						return request(app).get('/api/articles?filter=author&username=sam').expect(404).then((res) => {
+							expect(res.body.msg).to.eql('User Not Found');
 						});
 					});
 
-					it('GET status:400, when trying to use an invalid topic_name value', () => {
-						return request(app).get('/api/articles?filter=topic&topic_name=sam321').expect(200).then((res) => {
-							expect(res.body).to.eql([]);
+					it('GET status:404, when trying to use an invalid topic_name value', () => {
+						return request(app).get('/api/articles?filter=topic&topic_name=sam').expect(404).then((res) => {
+							expect(res.body.msg).to.eql('Topic Not Found');
 						});
 					});
 
