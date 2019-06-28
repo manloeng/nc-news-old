@@ -96,7 +96,7 @@ describe('/', () => {
 		});
 		describe('/articles', () => {
 			describe('CRUD methods', () => {
-				describe.only('GET request for /articles', () => {
+				describe('GET request for /articles', () => {
 					it('GET status:200, containing all the article data', () => {
 						return request(app).get('/api/articles').expect(200).then((res) => {
 							expect(res.body.articles[0]).to.contain.keys(
@@ -220,8 +220,8 @@ describe('/', () => {
 						it('GET status:400 when passed with a invalid article id', () => {
 							return request(app).get('/api/articles/andrew').expect(400).then((res) => {
 								expect(res.body.msg).to.equal(
-									'select "articles".*, count("comments"."article_id") as "comment_count" from "articles" inner join "comments" on "articles"."article_id" = "comments"."article_id" where "articles"."article_id" = $1 group by "articles"."article_id" limit $2 - invalid input syntax for integer: "andrew"'
-								);
+								'select "articles".*, count("comments"."article_id") as "comment_count" from "articles" left join "comments" on "articles"."article_id" = "comments"."article_id" where "articles"."article_id" = $1 group by "articles"."article_id" limit $2 - invalid input syntax for integer: "andrew"'
+									);
 							});
 						});
 
@@ -232,14 +232,14 @@ describe('/', () => {
 						});
 					});
 
-					describe('PATCH Request for /:article_id', () => {
-						it('PATCH status:202 when the article vote has been sucessfully updated', () => {
+					describe.only('PATCH Request for /:article_id', () => {
+						it('PATCH status:200 when the article vote has been sucessfully updated', () => {
 							return request(app)
 								.patch('/api/articles/1')
 								.send({
 									inc_votes: 1
 								})
-								.expect(202)
+								.expect(200)
 								.then((res) => {
 									expect(res.body.article).to.contain.keys(
 										'article_id',

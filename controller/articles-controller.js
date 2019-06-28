@@ -23,7 +23,7 @@ const changeArticleVote = (req, res, next) => {
 	const body = req.body;
 	updateArticleVote(article_id, body)
 		.then((article) => {
-			res.status(202).send({ article });
+			res.status(200).send({ article });
 		})
 		.catch(next);
 };
