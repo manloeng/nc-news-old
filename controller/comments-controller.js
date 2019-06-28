@@ -37,7 +37,7 @@ const sendComment = (req, res, next) => {
 const removeComment = (req, res, next) => {
 	const commentObj = req.params;
 	deleteComment(commentObj)
-		.then((comment) => {
+		.then((deleteCount) => {
 			res.sendStatus(204);
 		})
 		.catch(next);

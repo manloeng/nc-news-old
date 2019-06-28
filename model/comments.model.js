@@ -93,12 +93,14 @@ const updatingCommentData = (commentObj, body) => {
 };
 
 const deleteComment = (commentObj) => {
-	// const commentExists = commentObj.comment_id ? checkIfExists(commentObj.comment_id, 'comments', 'comment_id') : null;
-	// return Promise.all([ commentExists, comments ]).then(([ commentExists, comments ]) => {
-	// 	console.log(commentExists, '<-----');
-	// 	console.log(comments);
-	// });
-	return connection.into('comments').where('comment_id', commentObj.comment_id).del();
+	return connection.into('comments').where('comment_id', commentObj.comment_id).del().then((deleteCount) => {
+		if (deleteCount === 0) {
+			return Promise.reject({
+				status: 404,
+				msg: 'Page Not Found'
+			});
+		}
+	});
 };
 
 module.exports = { updateComment, fetchCommentsByArticleId, updatingCommentData, deleteComment };

@@ -476,7 +476,7 @@ describe('/', () => {
 						});
 					});
 
-					describe('DELETE Request for /:comment_id', () => {
+					describe.only('DELETE Request for /:comment_id', () => {
 						it('Delete status: 204, removes the comment from the content', () => {
 							return request(app).delete('/api/comments/1').expect(204);
 						});
