@@ -1,14 +1,14 @@
 const {
-	updatesComment,
+	updateComment,
 	fetchCommentsByArticleId,
-	updatingCommentData,
+	updateCommentVoteCount,
 	deleteComment
 } = require('../model/comments.model.js');
 
 const addComment = (req, res, next) => {
 	const articleObj = req.params;
 	const body = req.body;
-	updatesComment(articleObj, body)
+	updateComment(articleObj, body)
 		.then((comment) => {
 			res.status(201).send({ comment });
 		})
@@ -27,7 +27,7 @@ const sendCommentByArticleId = (req, res, next) => {
 const patchComment = (req, res, next) => {
 	const commentObj = req.params;
 	const body = req.body;
-	updatingCommentData(commentObj, body)
+	updateCommentVoteCount(commentObj, body)
 		.then((comment) => {
 			res.status(202).send({ comment });
 		})
