@@ -3,7 +3,8 @@ const { fetchArticleById, updateArticleVote, fetchArticles } = require('../model
 const sendArticle = (req, res, next) => {
 	fetchArticles(req.query)
 		.then((articles) => {
-			res.status(200).send(articles);
+			// console.log({ articles });
+			res.status(200).send({ articles });
 		})
 		.catch(next);
 };
