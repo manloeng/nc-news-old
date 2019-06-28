@@ -417,7 +417,7 @@ describe('/', () => {
 								})
 								.expect(400)
 								.then((res) => {
-									expect(res.body.msg).to.equal('Invalid Key Value Pair');
+									expect(res.body.msg).to.equal('Invalid Key Value');
 								});
 						});
 
@@ -429,7 +429,7 @@ describe('/', () => {
 								})
 								.expect(400)
 								.then((res) => {
-									expect(res.body.msg).to.equal('Invalid Key Value Pair');
+									expect(res.body.msg).to.equal('Invalid Key Value');
 								});
 						});
 
@@ -439,7 +439,7 @@ describe('/', () => {
 								.send({ inc_votes: 1, name: 'Mitch' })
 								.expect(400)
 								.then((res) => {
-									expect(res.body.msg).to.equal('Invalid Keys');
+									expect(res.body.msg).to.equal('Invalid Key Value');
 								});
 						});
 
@@ -476,7 +476,7 @@ describe('/', () => {
 						});
 					});
 
-					describe.only('DELETE Request for /:comment_id', () => {
+					describe('DELETE Request for /:comment_id', () => {
 						it('Delete status: 204, removes the comment from the content', () => {
 							return request(app).delete('/api/comments/1').expect(204);
 						});
