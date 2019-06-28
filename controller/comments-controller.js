@@ -24,7 +24,7 @@ const sendCommentByArticleId = (req, res, next) => {
 		.catch(next);
 };
 
-const updateComment = (req, res, next) => {
+const patchComment = (req, res, next) => {
 	const commentObj = req.params;
 	const body = req.body;
 	updatingCommentData(commentObj, body)
@@ -43,4 +43,4 @@ const removeComment = (req, res, next) => {
 		.catch(next);
 };
 
-module.exports = { addComment, sendCommentByArticleId, updateComment, removeComment };
+module.exports = { addComment, sendCommentByArticleId, patchComment, removeComment };
