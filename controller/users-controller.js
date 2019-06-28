@@ -1,6 +1,4 @@
-const { fetchUsers, fetchUsersById } = require('../model/users-model.js');
-
-const sendUsers = (req, res, next) => {};
+const { fetchUsersById } = require('../model/users-model.js');
 
 const sendUsersById = (req, res, next) => {
 	const user = req.params;
