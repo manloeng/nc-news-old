@@ -97,5 +97,34 @@
 				"created_at": 1527695952241
 			}
 		}
+	},
+	"PATCH /api/comments/:comment_id": {
+		"description": "updates comments based on requested comment id",
+		"queries": [],
+		"exampleInput": {
+			"inc_votes": 1
+		},
+		"exampleResponse": {
+			"comment": {
+				"comment_id": "1",
+				"author": "butter_bridge",
+				"body": "Creating something new here",
+				"votes": "121",
+				"created_at": 1527695952241
+			}
+		}
+	},
+	"GET /api/comments/:comment_id": {
+		"description": "fetches comments based on requested comment id",
+		"queries": [],
+		"exampleResponse": {
+			"comment": {
+				"comment_id": "1",
+				"author": "butter_bridge",
+				"body": "Creating something new here",
+				"votes": "120",
+				"created_at": 1527695952241
+			}
+		}
 	}
 }
