@@ -23,13 +23,13 @@ describe('/', () => {
 	});
 
 	describe('/api', () => {
-		it.only('Responds Status:200, with all the available endpoints on your API', () => {
+		it('Responds Status:200, with all the available endpoints on your API', () => {
 			return request(app).get('/api').expect(200).then((res) => {
 				expect(res.body).to.be.a('object');
 			});
 		});
 
-		it.only('INVALID METHOD status:405,', () => {
+		it('INVALID METHOD status:405,', () => {
 			const invalidMethods = [ 'patch', 'put', 'post', 'delete' ];
 
 			const methodPromise = invalidMethods.map((method) => {

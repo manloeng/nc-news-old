@@ -14,7 +14,6 @@ apiRouter.use('/comments', commentsRouter);
 apiRouter
 	.route('/')
 	.get((req, res) => {
-		console.log(json);
 		res.status(200).send(json);
 	})
 	.all(sendMethodNotAllowed);
