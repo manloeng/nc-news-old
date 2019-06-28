@@ -125,6 +125,28 @@ describe('/', () => {
 						});
 					});
 
+					it('GET status:400, when trying to use an invalid query value', () => {
+						return request(app).get('/api/articles?sort_by=new').expect(400).then((res) => {
+							expect(res.body.msg).to.equal('Invalid query value');
+						});
+					});
+
+					it('GET status:400, when trying to use an invalid query value', () => {
+						return request(app).get('/api/articles?filter=new&username=sam').expect(400).then((res) => {
+							expect(res.body.msg).to.equal('Invalid query value');
+						});
+					});
+					it('GET status:400, when trying to use an invalid username value', () => {
+						return request(app).get('/api/articles?filter=author&username=sam').expect(400).then((res) => {
+							expect(res.body.msg).to.equal('Invalid query value');
+						});
+					});
+					it('GET status:400, when trying to use an invalid topic_name value', () => {
+						return request(app).get('/api/articles?filter=topic&topic_name=sam').expect(400).then((res) => {
+							expect(res.body.msg).to.equal('Invalid query value');
+						});
+					});
+
 					// it('GET status:200, the article data should be filtered in an descending order by the author', () => {
 					// 	return request(app)
 					// 		.get('/api/articles?order_by=author&username=icellusedkars&sort_by=asc')
