@@ -23,6 +23,24 @@ describe('/', () => {
 	});
 
 	describe('/api', () => {
+		it.only('Responds Status:200, with all the available endpoints on your API', () => {
+			return request(app).get('/api').expect(200).then((res) => {
+				expect(res.body).to.be.a('object');
+			});
+		});
+
+		it.only('INVALID METHOD status:405,', () => {
+			const invalidMethods = [ 'patch', 'put', 'post', 'delete' ];
+
+			const methodPromise = invalidMethods.map((method) => {
+				return request(app)[method]('/api').expect(405).then((res) => {
+					expect(res.body.msg).to.equal('Method Not Allowed');
+				});
+			});
+
+			return Promise.all(methodPromise);
+		});
+
 		describe('/topics', () => {
 			describe('CRUD methods', () => {
 				describe('GET request for topics', () => {
