@@ -158,9 +158,7 @@ describe('/', () => {
 
 					it('GET status:400, when trying to use an invalid query value', () => {
 						return request(app).get('/api/articles?sort_by=new&username=sam').expect(400).then((res) => {
-							expect(res.body.msg).to.equal(
-								'select "articles"."article_id", "articles"."title", "articles"."votes", "articles"."topic", "articles"."created_at", "articles"."author", count("comments"."article_id") as "comment_count" from "articles" left join "comments" on "articles"."article_id" = "comments"."article_id" group by "articles"."article_id" order by "new" desc - column "new" does not exist'
-							);
+							expect(res.body.msg).to.equal('Bad Request');
 						});
 					});
 
