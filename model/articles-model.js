@@ -40,11 +40,13 @@ const fetchArticles = (query) => {
 		.groupBy('articles.article_id')
 		.modify((queryBuilder) => {
 			if (filterQuery.length === 2) {
-				queryBuilder.where('articles.author', 'icellusedkars');
+				queryBuilder.where(filterQuery[0], filterQuery[1]);
+			}
+			if (filterQuery.length === 1) {
+				queryBuilder.where(filterQuery[0]);
 			}
 		})
 		.then((articles) => {
-			// console.log(filterQuery); //--- needs working on
 			if (filterQuery.length === 2) {
 				const queryExist = query.author ? checkIfExists(query.author, 'articles', 'author') : null;
 				return Promise.all([ queryExist, articles ]);
@@ -66,19 +68,25 @@ const fetchArticles = (query) => {
 };
 
 const checkQuery = (query, orderObj, filterQuery) => {
-	if (query.sort_by || query.author || query.topic) {
-		orderObj.column = query.sort_by;
-		if (query.author) {
-			orderObj.column = 'author';
-			filterQuery.push('articles.author', query.author);
+	if (query.author && query.topic) {
+		orderObj.column = 'author';
+		filterQuery.push({ 'articles.author': query.author, 'articles.topic': query.topic });
+	} else {
+		if (query.sort_by || query.author || query.topic) {
+			orderObj.column = query.sort_by;
+			if (query.author) {
+				orderObj.column = 'author';
+				filterQuery.push('articles.author', query.author);
+			}
+			if (query.topic) {
+				orderObj.column = 'topic';
+				filterQuery.push('articles.topic', query.topic);
+			}
 		}
-		if (query.topic) {
-			orderObj.column = 'topic';
-			filterQuery.push('articles.topic', query.topic);
+
+		if (query.order) {
+			orderObj.order = query.order;
 		}
-	}
-	if (query.order) {
-		orderObj.order = query.order;
 	}
 };
 

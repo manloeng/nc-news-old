@@ -170,7 +170,7 @@ describe('/', () => {
 
 					it('GET status:200, the article data should be filtered in an descending order by the author', () => {
 						return request(app).get('/api/articles?author=icellusedkars&topic=mitch').expect(200).then((res) => {
-							expect(res.body).to.be.descendingBy('author');
+							expect(res.body.articles).to.be.descendingBy('created_at');
 							expect(res.body.articles).to.have.lengthOf(6);
 						});
 					});
