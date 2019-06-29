@@ -44,7 +44,7 @@ const fetchArticles = (query) => {
 			}
 		})
 		.then((articles) => {
-			console.log(filterQuery);
+			// console.log(filterQuery); --- needs working on
 			if (filterQuery.length === 2) {
 				const queryExist = query.author ? checkIfExists(query.author, 'articles', 'author') : null;
 				return Promise.all([ queryExist, articles ]);
