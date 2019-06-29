@@ -96,7 +96,7 @@ describe('/', () => {
 		});
 		describe('/articles', () => {
 			describe('CRUD methods', () => {
-				describe('GET request for /articles', () => {
+				describe.only('GET request for /articles', () => {
 					it('GET status:200, containing all the article data', () => {
 						return request(app).get('/api/articles').expect(200).then((res) => {
 							expect(res.body.articles[0]).to.contain.keys(
@@ -132,6 +132,7 @@ describe('/', () => {
 					it('GET status:200, the article data should be filtered in an descending order by the author', () => {
 						return request(app).get('/api/articles?sort_by=author&author=icellusedkars').expect(200).then((res) => {
 							expect(res.body.articles).to.be.descendingBy('author');
+							expect(res.body.articles).to.have.lengthOf(6);
 						});
 					});
 
@@ -220,8 +221,8 @@ describe('/', () => {
 						it('GET status:400 when passed with a invalid article id', () => {
 							return request(app).get('/api/articles/andrew').expect(400).then((res) => {
 								expect(res.body.msg).to.equal(
-								'select "articles".*, count("comments"."article_id") as "comment_count" from "articles" left join "comments" on "articles"."article_id" = "comments"."article_id" where "articles"."article_id" = $1 group by "articles"."article_id" limit $2 - invalid input syntax for integer: "andrew"'
-									);
+									'select "articles".*, count("comments"."article_id") as "comment_count" from "articles" left join "comments" on "articles"."article_id" = "comments"."article_id" where "articles"."article_id" = $1 group by "articles"."article_id" limit $2 - invalid input syntax for integer: "andrew"'
+								);
 							});
 						});
 
