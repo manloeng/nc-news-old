@@ -156,12 +156,6 @@ describe('/', () => {
 						});
 					});
 
-					it('GET status:400, when trying to use an invalid query value', () => {
-						return request(app).get('/api/articles?sort_by=new&username=sam').expect(400).then((res) => {
-							expect(res.body.msg).to.equal('Bad Request');
-						});
-					});
-
 					it('GET status:404, when trying to use an invalid username value', () => {
 						return request(app).get('/api/articles?author=sam').expect(404).then((res) => {
 							expect(res.body.msg).to.eql('Author not found');
@@ -174,17 +168,15 @@ describe('/', () => {
 						});
 					});
 
-					// it('GET status:200, the article data should be filtered in an descending order by the author', () => {
-					// 	return request(app)
-					// 		.get('/api/articles?order_by=author&username=icellusedkars&sort_by=asc')
-					// 		.expect(200)
-					// 		.then((res) => {
-					// 			expect(res.body).to.be.ascendingBy('author');
-					// 			expect(res.body).to.have.lengthOf(1);
-					// 		});
-					// });
+					it('GET status:200, the article data should be filtered in an descending order by the author', () => {
+						return request(app).get('/api/articles?author=icellusedkars&topic=mitch').expect(200).then((res) => {
+							expect(res.body).to.be.descendingBy('author');
+							expect(res.body.articles).to.have.lengthOf(6);
+						});
+					});
 				});
 			});
+
 			it('INVALID METHOD status:405,', () => {
 				const invalidMethods = [ 'patch', 'put', 'post', 'delete' ];
 
