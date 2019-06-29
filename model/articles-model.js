@@ -21,63 +21,66 @@ const fetchArticles = (query) => {
 				});
 			}
 		}
-		checkQuery(query, orderObj, filterQuery);
+		checkQuery(queryObj, orderObj, filterQuery);
 	}
 
-	return connection
-		.select(
-			'articles.article_id',
-			'articles.title',
-			'articles.votes',
-			'articles.topic',
-			'articles.created_at',
-			'articles.author'
-		)
-		.count({ comment_count: 'comments.article_id' })
-		.from('articles')
-		.leftJoin('comments', 'articles.article_id', 'comments.article_id')
-		.orderBy([ orderObj ])
-		.groupBy('articles.article_id')
-		.modify((queryBuilder) => {
-			if (filterQuery.length === 2) {
-				queryBuilder.where(filterQuery[0], filterQuery[1]);
-			}
-		})
-		.then((articles) => {
-			// console.log(filterQuery); --- needs working on
-			if (filterQuery.length === 2) {
-				const queryExist = query.author ? checkIfExists(query.author, 'articles', 'author') : null;
-				return Promise.all([ queryExist, articles ]);
-			} else return articles;
-		})
-		.then((articleArr) => {
-			if (articleArr[0] === false) {
-				return Promise.reject({
-					status: 404,
-					msg: 'Author not found'
-				});
-			} else if (articleArr.length === 2) {
-				return articleArr[1];
-			} else {
-				return articleArr;
-			}
-		});
+	return (
+		connection
+			.select(
+				'articles.article_id',
+				'articles.title',
+				'articles.votes',
+				'articles.topic',
+				'articles.created_at',
+				'articles.author'
+			)
+			.count({ comment_count: 'comments.article_id' })
+			.from('articles')
+			.leftJoin('comments', 'articles.article_id', 'comments.article_id')
+			.orderBy([ orderObj ])
+			.groupBy('articles.article_id')
+			.modify((queryBuilder) => {
+				if (filterQuery.length === 2) {
+					queryBuilder.where('articles.author', 'icellusedkars');
+				}
+			})
+			// .then((articles) => {
+			// 	// console.log(filterQuery); //--- needs working on
+			// 	if (filterQuery.length === 2) {
+			// 		const queryExist = query.author ? checkIfExists(query.author, 'articles', 'author') : null;
+			// 		return Promise.all([ queryExist, articles ]);
+			// 	} else return articles;
+			// })
+			.then((articleArr) => {
+				// console.log(articleArr);
+				if (articleArr[0] === false) {
+					return Promise.reject({
+						status: 404,
+						msg: 'Author not found'
+					});
+				} else if (articleArr.length === 2) {
+					return articleArr[1];
+				} else {
+					return articleArr;
+				}
+			})
+	);
 };
 
 const checkQuery = (query, orderObj, filterQuery) => {
-	if ('sort_by' in query || 'order' in query) {
-		if (query.sort_by) {
-			orderObj.column = query.sort_by;
-			if (query.author) {
-				filterQuery.push('articles.author', query.author);
-			}
-			if (query.topic) {
-				filterQuery.push('articles.topic', query.topic);
-			}
+	if (query.sort_by || query.author || query.topic) {
+		orderObj.column = query.sort_by;
+		if (query.author) {
+			orderObj.column = 'author';
+			filterQuery.push('articles.author', query.author);
 		}
-		if (query.order) {
-			orderObj.order = query.order;
+		if (query.topic) {
+			orderObj.column = 'topic';
+			filterQuery.push('articles.topic', query.topic);
 		}
+	}
+	if (query.order) {
+		orderObj.order = query.order;
 	}
 };
 
