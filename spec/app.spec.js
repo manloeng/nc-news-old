@@ -130,14 +130,14 @@ describe('/', () => {
 					});
 
 					it('GET status:200, the article data should be filtered in an descending order by the author', () => {
-						return request(app).get('/api/articles?sort_by=author&author=icellusedkars').expect(200).then((res) => {
+						return request(app).get('/api/articles?author=icellusedkars').expect(200).then((res) => {
 							expect(res.body.articles).to.be.descendingBy('author');
 							expect(res.body.articles).to.have.lengthOf(6);
 						});
 					});
 
 					it('GET status:200, the article data should be filtered in an descending order by the topic', () => {
-						return request(app).get('/api/articles?sort_by=topic&topic=mitch').expect(200).then((res) => {
+						return request(app).get('/api/articles?topic=mitch').expect(200).then((res) => {
 							expect(res.body.articles).to.be.descendingBy('topic');
 						});
 					});
@@ -163,13 +163,13 @@ describe('/', () => {
 					});
 
 					it('GET status:404, when trying to use an invalid username value', () => {
-						return request(app).get('/api/articles?sort_by=author&author=sam').expect(404).then((res) => {
+						return request(app).get('/api/articles?author=sam').expect(404).then((res) => {
 							expect(res.body.msg).to.eql('Author not found');
 						});
 					});
 
 					xit('GET status:404, when trying to use an invalid topic_name value', () => {
-						return request(app).get('/api/articles?sort_by=topic&topic=sam').expect(404).then((res) => {
+						return request(app).get('/api/articles?topic=sam').expect(404).then((res) => {
 							expect(res.body.msg).to.eql('Topic Not Found');
 						});
 					});
