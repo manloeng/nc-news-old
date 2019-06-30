@@ -116,12 +116,12 @@ const fetchArticleById = (article_id) => {
 		});
 };
 
-const updateArticleVote = (article_id, query) => {
-	if (!Object.keys(query).length) {
-		query.inc_votes = 0;
+const updateArticleVote = (article_id, recievedBody) => {
+	if (!Object.keys(recievedBody).length) {
+		recievedBody.inc_votes = 0;
 	}
 
-	if (Object.keys(query).length > 1 || Object.keys(query)[0] !== 'inc_votes') {
+	if (Object.keys(recievedBody).length > 1 || Object.keys(recievedBody)[0] !== 'inc_votes') {
 		return Promise.reject({
 			status: 400,
 			msg: 'Invalid Key Value'
@@ -132,7 +132,7 @@ const updateArticleVote = (article_id, query) => {
 		.first('*')
 		.from('articles')
 		.where('article_id', article_id)
-		.increment('votes', query.inc_votes)
+		.increment('votes', recievedBody.inc_votes)
 		.returning('*')
 		.then((article) => {
 			if (!article.length) {
