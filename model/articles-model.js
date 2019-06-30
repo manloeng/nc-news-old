@@ -115,18 +115,16 @@ const fetchArticleById = (article_id) => {
 		});
 };
 
-const updateArticleVote = (article_id, body) => {
-	if (Object.keys(body).length === 0) {
-		return Promise.reject({
-			status: 400,
-			msg: 'Require Input'
-		});
-	} else if (Object.keys(body).length === 1 && Object.keys(body)[0] === 'inc_votes') {
+const updateArticleVote = (article_id, query) => {
+	if (!Object.keys(query).length) {
+		query.inc_votes = 0;
+	}
+	if (!Object.keys(query).length || Object.keys(query)[0] === 'inc_votes') {
 		return connection
 			.first('*')
 			.from('articles')
 			.where('article_id', article_id)
-			.increment('votes', body.inc_votes)
+			.increment('votes', query.inc_votes)
 			.returning('*')
 			.then((article) => {
 				if (!article.length) {
@@ -134,7 +132,7 @@ const updateArticleVote = (article_id, body) => {
 						status: 404,
 						msg: 'Article not found'
 					});
-				} else if (typeof body.inc_votes === 'number') {
+				} else if (typeof query.inc_votes === 'number') {
 					return article[0];
 				}
 			});

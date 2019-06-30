@@ -19,7 +19,7 @@ const sendCommentByArticleId = (req, res, next) => {
 	const articleObj = req.params;
 	fetchCommentsByArticleId(articleObj, req.query)
 		.then((comment) => {
-			res.status(200).send(comment);
+			res.status(200).send({ comment });
 		})
 		.catch(next);
 };

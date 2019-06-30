@@ -28,12 +28,27 @@ const updateComment = (article_id, body) => {
 };
 
 const fetchCommentsByArticleId = (article_id, query) => {
-	if (!Object.keys(query).length || (Object.keys(query)[0] === 'order' || Object.keys(query)[0] === 'sort_by')) {
+	const queryObj = {
+		sort_by: query.sort_by,
+		order: query.order
+	};
+	const orderObj = { column: 'created_at', order: 'desc' };
+
+	if (Object.keys(query)[0] in queryObj) {
+		if (Object.keys(query)[0] === 'sort_by') {
+			orderObj.column = query.sort_by;
+		}
+		if (Object.keys(query)[0] === 'order') {
+			orderObj.order = query.order;
+		}
+	}
+
+	if (!Object.keys(query).length || Object.keys(query)[0] in queryObj) {
 		return connection
 			.select('comment_id', 'votes', 'created_at', 'author', 'body')
 			.from('comments')
 			.where('article_id', article_id.article_id)
-			.orderBy(query.sort_by || 'created_at', query.order || 'created_at')
+			.orderBy([ orderObj ])
 			.then((comment) => {
 				return comment;
 			});

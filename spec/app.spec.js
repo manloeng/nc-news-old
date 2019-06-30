@@ -96,7 +96,7 @@ describe('/', () => {
 		});
 		describe('/articles', () => {
 			describe('CRUD methods', () => {
-				describe.only('GET request for /articles', () => {
+				describe('GET request for /articles', () => {
 					it('GET status:200, containing all the article data', () => {
 						return request(app).get('/api/articles').expect(200).then((res) => {
 							expect(res.body.articles[0]).to.contain.keys(
@@ -161,9 +161,20 @@ describe('/', () => {
 							expect(res.body.msg).to.eql('Author not found');
 						});
 					});
+					it('GET status:404, when trying to use an invalid username value', () => {
+						return request(app).get('/api/articles?author=not-an-author').expect(404).then((res) => {
+							expect(res.body.msg).to.eql('Author not found');
+						});
+					});
 
 					xit('GET status:404, when trying to use an invalid topic_name value', () => {
 						return request(app).get('/api/articles?topic=sam').expect(404).then((res) => {
+							expect(res.body.msg).to.eql('Topic Not Found');
+						});
+					});
+
+					xit('GET status:404, when trying to use an invalid topic_name value', () => {
+						return request(app).get('/api/articles?topic=not-a-topic').expect(404).then((res) => {
 							expect(res.body.msg).to.eql('Topic Not Found');
 						});
 					});
@@ -223,7 +234,7 @@ describe('/', () => {
 						});
 					});
 
-					describe.only('PATCH Request for /:article_id', () => {
+					describe('PATCH Request for /:article_id', () => {
 						it('PATCH status:200 when the article vote has been sucessfully updated', () => {
 							return request(app)
 								.patch('/api/articles/1')
@@ -293,9 +304,9 @@ describe('/', () => {
 								});
 						});
 
-						it('PATCH status:400 when trying to update with values', () => {
-							return request(app).patch('/api/articles/1').send({}).expect(400).then((res) => {
-								expect(res.body.msg).to.equal('Require Input');
+						it.only('PATCH status:200 responds with original content when passed with no values', () => {
+							return request(app).patch('/api/articles/1').send({}).expect(200).then((res) => {
+								expect(res.body.article.votes).to.equal(100);
 							});
 						});
 
@@ -369,36 +380,36 @@ describe('/', () => {
 							});
 						});
 
-						describe('GET Request for /comments', () => {
+						describe.only('GET Request for /comments', () => {
 							it('GET status:200, when a a valid article_id is used', () => {
 								return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
-									expect(res.body[0]).to.contain.keys('author', 'body', 'comment_id', 'created_at', 'votes');
-									expect(res.body.length).to.equal(13);
+									expect(res.body.comment[0]).to.contain.keys('author', 'body', 'comment_id', 'created_at', 'votes');
+									expect(res.body.comment.length).to.equal(13);
 								});
 							});
 
 							it('GET status:200, when a valid article_id is used and the comments are sorted in an ascending order by the date it has been created', () => {
 								return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
-									expect(res.body).to.be.sortedBy('created_at');
+									expect(res.body.comment).to.be.descendingBy('created_at');
 								});
 							});
 
 							it('GET status:200, when a valid article_id is used and the comments are sorted in an descending order by the date it has been created', () => {
-								return request(app).get('/api/articles/1/comments?order=desc').expect(200).then((res) => {
-									expect(res.body).to.be.descendingBy('created_at');
+								return request(app).get('/api/articles/1/comments?order=asc').expect(200).then((res) => {
+									expect(res.body.comment).to.be.ascendingBy('created_at');
 								});
 							});
 
 							it('GET status:200, when a valid article_id is used and the comments are sorted in an descending order by author', () => {
 								return request(app).get('/api/articles/1/comments?sort_by=author').expect(200).then((res) => {
-									expect(res.body).to.be.ascendingBy('author');
+									expect(res.body.comment).to.be.descendingBy('author');
 								});
 							});
 
 							it('GET status:400, when a invalid key is used', () => {
 								return request(app).get('/api/articles/1/comments?sort_by=colour').expect(400).then((res) => {
 									expect(res.body.msg).to.be.equal(
-										'select "comment_id", "votes", "created_at", "author", "body" from "comments" where "article_id" = $1 order by "colour" asc - column "colour" does not exist'
+										'select "comment_id", "votes", "created_at", "author", "body" from "comments" where "article_id" = $1 order by "colour" desc - column "colour" does not exist'
 									);
 								});
 							});
@@ -428,7 +439,7 @@ describe('/', () => {
 		describe('/comments', () => {
 			describe('/:comment_id', () => {
 				describe('CRUD methods', () => {
-					describe('PATCH Request for /:comment_id', () => {
+					describe.only('PATCH Request for /:comment_id', () => {
 						it('PATCH status:202 when the comment vote has been sucessfully updated', () => {
 							return request(app)
 								.patch('/api/comments/1')
@@ -490,9 +501,9 @@ describe('/', () => {
 								});
 						});
 
-						it('PATCH status:400 when trying to update with values', () => {
-							return request(app).patch('/api/comments/1').send({}).expect(400).then((res) => {
-								expect(res.body.msg).to.equal('Require Input');
+						it.only('PATCH status:200 when trying to update with values', () => {
+							return request(app).patch('/api/comments/1').send({}).expect(200).then((res) => {
+								expect(res.body.comment.votes).to.equal(16);
 							});
 						});
 
