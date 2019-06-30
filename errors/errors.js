@@ -5,8 +5,9 @@ const sendMethodNotAllowed = (req, res) => {
 const errStatus = (err, req, res, next) => {
 	if (err.status) {
 		res.status(err.status).send({ msg: err.msg });
+	} else {
+		next(err);
 	}
-	next(err);
 };
 
 const sqlErrors = (err, req, res, next) => {
