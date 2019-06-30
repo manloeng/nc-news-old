@@ -13,12 +13,23 @@ app.use((err, req, res, next) => {
 	if (err.status) {
 		res.status(err.status).send({ msg: err.msg });
 	}
-	const sqlErrorCode = [ '22P02', '42703' ];
-	if (sqlErrorCode.includes(err.code)) {
+
+	const sqlErrorCode = {
+		'22P02': '22P02',
+		'42703': '42703'
+	};
+
+	if (err.code in sqlErrorCode) {
 		res.status(400).send({ msg: err.message });
 	} else {
 		next(err);
 	}
+	// const sqlErrorCode = [ '22P02', '42703' ];
+	// if (sqlErrorCode.includes(err.code)) {
+	// 	res.status(400).send({ msg: err.message });
+	// } else {
+	// 	next(err);
+	// }
 });
 
 app.use((err, req, res, next) => {
