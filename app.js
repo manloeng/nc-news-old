@@ -13,12 +13,16 @@ app.use((err, req, res, next) => {
 	if (err.status) {
 		res.status(err.status).send({ msg: err.msg });
 	}
-	if (err.code === '22P02') {
+	const sqlErrorCode = [ '22P02', '42703' ];
+	if (sqlErrorCode.includes(err.code)) {
 		res.status(400).send({ msg: err.message });
+	} else {
+		next(err);
 	}
-	if (err.code === '42703') {
-		res.status(400).send({ msg: err.message });
-	}
+});
+
+app.use((err, req, res, next) => {
+	res.status(500).send({ msg: 'Internal Sever Error' });
 });
 
 module.exports = app;
