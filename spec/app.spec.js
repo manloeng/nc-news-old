@@ -304,7 +304,7 @@ describe('/', () => {
 								});
 						});
 
-						it.only('PATCH status:200 responds with original content when passed with no values', () => {
+						it('PATCH status:200 responds with original content when passed with no values', () => {
 							return request(app).patch('/api/articles/1').send({}).expect(200).then((res) => {
 								expect(res.body.article.votes).to.equal(100);
 							});
@@ -380,7 +380,7 @@ describe('/', () => {
 							});
 						});
 
-						describe.only('GET Request for /comments', () => {
+						describe('GET Request for /comments', () => {
 							it('GET status:200, when a a valid article_id is used', () => {
 								return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
 									expect(res.body.comment[0]).to.contain.keys('author', 'body', 'comment_id', 'created_at', 'votes');
@@ -445,13 +445,13 @@ describe('/', () => {
 			describe('/:comment_id', () => {
 				describe('CRUD methods', () => {
 					describe.only('PATCH Request for /:comment_id', () => {
-						it('PATCH status:202 when the comment vote has been sucessfully updated', () => {
+						it('PATCH status:200 when the comment vote has been sucessfully updated', () => {
 							return request(app)
 								.patch('/api/comments/1')
 								.send({
 									inc_votes: 1
 								})
-								.expect(202)
+								.expect(200)
 								.then((res) => {
 									expect(res.body.comment).to.contain.keys('comment_id', 'author', 'body', 'created_at', 'votes');
 									expect(res.body.comment.votes).to.equal(17);
@@ -506,7 +506,7 @@ describe('/', () => {
 								});
 						});
 
-						it.only('PATCH status:200 when trying to update with values', () => {
+						it('PATCH status:200 when trying to update with values', () => {
 							return request(app).patch('/api/comments/1').send({}).expect(200).then((res) => {
 								expect(res.body.comment.votes).to.equal(16);
 							});
