@@ -66,7 +66,7 @@ describe('/', () => {
 
 		describe('/users/:username', () => {
 			describe('CRUD methods', () => {
-				describe.only('GET request for /users/:username', () => {
+				describe('GET request for /users/:username', () => {
 					it('GET status:200 when passed with a valid users id ', () => {
 						return request(app).get('/api/users/icellusedkars').expect(200).then((res) => {
 							expect(res.body.user).to.contain.keys('username', 'name', 'avatar_url');
@@ -422,6 +422,12 @@ describe('/', () => {
 							it('GET status:400, when a invalid query is used', () => {
 								return request(app).get('/api/articles/1/comments?create=colour').expect(400).then((res) => {
 									expect(res.body.msg).to.be.equal('Invalid query is used');
+								});
+							});
+
+							it('GET status:404 responds when article data is not found', () => {
+								return request(app).get('/api/articles/999/comments').expect(404).then((res) => {
+									expect(res.body.msg).to.equal('Article Not Found');
 								});
 							});
 						});

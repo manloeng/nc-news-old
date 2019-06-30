@@ -16,8 +16,8 @@ const addComment = (req, res, next) => {
 };
 
 const sendCommentByArticleId = (req, res, next) => {
-	const articleObj = req.params;
-	fetchCommentsByArticleId(articleObj, req.query)
+	const idObj = req.params;
+	fetchCommentsByArticleId(idObj, req.query)
 		.then((comment) => {
 			res.status(200).send({ comment });
 		})

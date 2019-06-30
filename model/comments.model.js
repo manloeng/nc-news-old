@@ -27,30 +27,41 @@ const updateComment = (article_id, body) => {
 	}
 };
 
-const fetchCommentsByArticleId = (article_id, query) => {
+const fetchCommentsByArticleId = (idObj, recievedBody) => {
 	const queryObj = {
-		sort_by: query.sort_by,
-		order: query.order
+		sort_by: recievedBody.sort_by,
+		order: recievedBody.order
 	};
 	const orderObj = { column: 'created_at', order: 'desc' };
 
-	if (Object.keys(query)[0] in queryObj) {
-		if (Object.keys(query)[0] === 'sort_by') {
-			orderObj.column = query.sort_by;
+	if (Object.keys(recievedBody)[0] in queryObj) {
+		if (Object.keys(recievedBody)[0] === 'sort_by') {
+			orderObj.column = recievedBody.sort_by;
 		}
-		if (Object.keys(query)[0] === 'order') {
-			orderObj.order = query.order;
+		if (Object.keys(recievedBody)[0] === 'order') {
+			orderObj.order = recievedBody.order;
 		}
 	}
 
-	if (!Object.keys(query).length || Object.keys(query)[0] in queryObj) {
+	if (!Object.keys(recievedBody).length || Object.keys(recievedBody)[0] in queryObj) {
 		return connection
 			.select('comment_id', 'votes', 'created_at', 'author', 'body')
 			.from('comments')
-			.where('article_id', article_id.article_id)
+			.where('article_id', idObj.article_id)
 			.orderBy([ orderObj ])
 			.then((comment) => {
-				return comment;
+				const queryExist = idObj.article_id ? checkIfExists(idObj.article_id, 'articles', 'article_id') : null;
+				return Promise.all([ queryExist, comment ]);
+			})
+			.then((commentArr) => {
+				if (commentArr[0] === false) {
+					return Promise.reject({
+						status: 404,
+						msg: 'Article Not Found'
+					});
+				} else {
+					return commentArr[1];
+				}
 			});
 	} else {
 		return Promise.reject({
