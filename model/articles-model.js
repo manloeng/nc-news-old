@@ -2,17 +2,16 @@ const connection = require('../db/connection.js');
 const checkIfExists = require('../errors/check');
 
 const fetchArticles = (query) => {
+	const queryObj = {
+		sort_by: query.sort_by,
+		author: query.author,
+		topic: query.topic,
+		order: query.order
+	};
 	const orderObj = { column: 'created_at', order: 'desc' };
 	let filterQuery = [];
 
 	if (Object.keys(query).length > 0) {
-		const queryObj = {
-			sort_by: query.sort_by,
-			author: query.author,
-			order: query.order,
-			topic: query.topic
-		};
-
 		for (let i = 0; i < Object.keys(query).length; i++) {
 			if (!(Object.keys(query)[i] in queryObj)) {
 				return Promise.reject({
@@ -21,7 +20,7 @@ const fetchArticles = (query) => {
 				});
 			}
 		}
-		checkQuery(queryObj, orderObj, filterQuery);
+		checkQuery(query, queryObj, orderObj, filterQuery);
 	}
 
 	return connection
@@ -67,13 +66,15 @@ const fetchArticles = (query) => {
 		});
 };
 
-const checkQuery = (query, orderObj, filterQuery) => {
+const checkQuery = (query, queryObj, orderObj, filterQuery) => {
 	if (query.author && query.topic) {
 		orderObj.column = 'author';
 		filterQuery.push({ 'articles.author': query.author, 'articles.topic': query.topic });
 	} else {
-		if (query.sort_by || query.author || query.topic) {
-			orderObj.column = query.sort_by;
+		if (Object.keys(query)[0] in queryObj) {
+			if (query.sort_by) {
+				orderObj.column = query.sort_by;
+			}
 			if (query.author) {
 				orderObj.column = 'author';
 				filterQuery.push('articles.author', query.author);
