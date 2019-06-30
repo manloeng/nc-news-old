@@ -1,20 +1,15 @@
 const connection = require('../db/connection.js');
 
 const fetchUsersById = (userId) => {
-	// console.log(userId);
-	return connection.select('*').from('users').then((results) => {
-		const filteredUser = results.filter((user) => {
-			if (user.username === userId.username) {
-				return user;
-			}
-		});
-		if (!filteredUser.length) {
+	return connection.first('*').from('users').where('username', userId.username).then((user) => {
+		console.log(user);
+		if (!user) {
 			return Promise.reject({
-				status: 400,
-				msg: 'Invalid username'
+				status: 404,
+				msg: 'User Not Found'
 			});
 		}
-		return filteredUser[0];
+		return user;
 	});
 };
 

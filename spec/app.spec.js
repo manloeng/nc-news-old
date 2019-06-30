@@ -66,18 +66,18 @@ describe('/', () => {
 
 		describe('/users/:username', () => {
 			describe('CRUD methods', () => {
-				describe('GET request for /users/:username', () => {
+				describe.only('GET request for /users/:username', () => {
 					it('GET status:200 when passed with a valid users id ', () => {
 						return request(app).get('/api/users/icellusedkars').expect(200).then((res) => {
 							expect(res.body.user).to.contain.keys('username', 'name', 'avatar_url');
 							expect(res.body.user.username).to.equal('icellusedkars');
 						});
 					});
-				});
 
-				it('GET status:400 when passed with a invalid users id', () => {
-					return request(app).get('/api/users/andrew').expect(400).then((res) => {
-						expect(res.body.msg).to.equal('Invalid username');
+					it('GET status:404 when passed with a invalid users id', () => {
+						return request(app).get('/api/users/andrew').expect(404).then((res) => {
+							expect(res.body.msg).to.equal('User Not Found');
+						});
 					});
 				});
 			});
@@ -380,7 +380,7 @@ describe('/', () => {
 							});
 						});
 
-						describe('GET Request for /comments', () => {
+						describe.only('GET Request for /comments', () => {
 							it('GET status:200, when a a valid article_id is used', () => {
 								return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
 									expect(res.body.comment[0]).to.contain.keys('author', 'body', 'comment_id', 'created_at', 'votes');
