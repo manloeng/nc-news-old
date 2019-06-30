@@ -444,7 +444,7 @@ describe('/', () => {
 		describe('/comments', () => {
 			describe('/:comment_id', () => {
 				describe('CRUD methods', () => {
-					describe.only('PATCH Request for /:comment_id', () => {
+					describe('PATCH Request for /:comment_id', () => {
 						it('PATCH status:200 when the comment vote has been sucessfully updated', () => {
 							return request(app)
 								.patch('/api/comments/1')

@@ -120,29 +120,30 @@ const updateArticleVote = (article_id, query) => {
 	if (!Object.keys(query).length) {
 		query.inc_votes = 0;
 	}
-	if (!Object.keys(query).length || Object.keys(query)[0] === 'inc_votes') {
-		return connection
-			.first('*')
-			.from('articles')
-			.where('article_id', article_id)
-			.increment('votes', query.inc_votes)
-			.returning('*')
-			.then((article) => {
-				if (!article.length) {
-					return Promise.reject({
-						status: 404,
-						msg: 'Article not found'
-					});
-				} else {
-					return article[0];
-				}
-			});
-	} else {
+
+	if (Object.keys(query).length > 1 || Object.keys(query)[0] !== 'inc_votes') {
 		return Promise.reject({
 			status: 400,
 			msg: 'Invalid Key Value'
 		});
 	}
+
+	return connection
+		.first('*')
+		.from('articles')
+		.where('article_id', article_id)
+		.increment('votes', query.inc_votes)
+		.returning('*')
+		.then((article) => {
+			if (!article.length) {
+				return Promise.reject({
+					status: 404,
+					msg: 'Article not found'
+				});
+			} else {
+				return article[0];
+			}
+		});
 };
 
 module.exports = { fetchArticleById, updateArticleVote, fetchArticles };
