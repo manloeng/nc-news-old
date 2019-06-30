@@ -77,8 +77,7 @@ const updateCommentVoteCount = (commentObj, recievedBody) => {
 						status: 404,
 						msg: 'Comment not found'
 					});
-				} else if (typeof recievedBody.inc_votes === 'number') {
-					console.log(comment);
+				} else {
 					return comment[0];
 				}
 			});

@@ -133,7 +133,7 @@ const updateArticleVote = (article_id, query) => {
 						status: 404,
 						msg: 'Article not found'
 					});
-				} else if (typeof query.inc_votes === 'number') {
+				} else {
 					return article[0];
 				}
 			});
