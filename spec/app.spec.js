@@ -380,7 +380,7 @@ describe('/', () => {
 							});
 						});
 
-						describe.only('GET Request for /comments', () => {
+						describe('GET Request for /comments', () => {
 							it('GET status:200, when a a valid article_id is used', () => {
 								return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
 									expect(res.body.comment[0]).to.contain.keys('author', 'body', 'comment_id', 'created_at', 'votes');

@@ -7,8 +7,8 @@ const {
 
 const addComment = (req, res, next) => {
 	const articleObj = req.params;
-	const body = req.body;
-	updateComment(articleObj, body)
+	const recievedBody = req.body;
+	updateComment(articleObj, recievedBody)
 		.then((comment) => {
 			res.status(201).send({ comment });
 		})

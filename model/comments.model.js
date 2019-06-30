@@ -1,20 +1,20 @@
 const connection = require('../db/connection.js');
 const checkIfExists = require('../errors/check');
 
-const updateComment = (article_id, body) => {
-	if (Object.keys(body)[0] === 'username' && Object.keys(body)[1] === 'body') {
+const updateComment = (articleObj, recievedBody) => {
+	if (Object.keys(recievedBody)[0] === 'username' && Object.keys(recievedBody)[1] === 'body') {
 		return connection
 			.insert({
-				author: body.username,
-				body: body.body,
-				article_id: article_id.article_id
+				author: recievedBody.username,
+				body: recievedBody.body,
+				article_id: articleObj.article_id
 			})
 			.into('comments')
 			.returning('*')
 			.then((comment) => {
 				return comment[0];
 			});
-	} else if (Object.keys(body).length === 0) {
+	} else if (Object.keys(recievedBody).length === 0) {
 		return Promise.reject({
 			status: 400,
 			msg: 'Require username and body input'
