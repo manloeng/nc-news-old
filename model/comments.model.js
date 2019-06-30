@@ -60,18 +60,16 @@ const fetchCommentsByArticleId = (article_id, query) => {
 	}
 };
 
-const updateCommentVoteCount = (commentObj, body) => {
-	if (Object.keys(body).length === 0) {
-		return Promise.reject({
-			status: 400,
-			msg: 'Require Input'
-		});
-	} else if (Object.keys(body).length === 1 && Object.keys(body)[0] === 'inc_votes') {
+const updateCommentVoteCount = (commentObj, recievedBody) => {
+	if (Object.keys(recievedBody).length === 0) {
+		recievedBody.inc_votes = 0;
+	}
+	if (Object.keys(recievedBody).length === 1 && Object.keys(recievedBody)[0] === 'inc_votes') {
 		return connection
 			.select('*')
 			.from('comments')
 			.where('comment_id', commentObj.comment_id)
-			.increment('votes', body.inc_votes)
+			.increment('votes', recievedBody.inc_votes)
 			.returning('*')
 			.then((comment) => {
 				if (!comment.length) {
@@ -79,7 +77,8 @@ const updateCommentVoteCount = (commentObj, body) => {
 						status: 404,
 						msg: 'Comment not found'
 					});
-				} else if (typeof body.inc_votes === 'number') {
+				} else if (typeof recievedBody.inc_votes === 'number') {
+					console.log(comment);
 					return comment[0];
 				}
 			});

@@ -26,10 +26,10 @@ const sendCommentByArticleId = (req, res, next) => {
 
 const patchComment = (req, res, next) => {
 	const commentObj = req.params;
-	const body = req.body;
-	updateCommentVoteCount(commentObj, body)
+	const recievedBody = req.body;
+	updateCommentVoteCount(commentObj, recievedBody)
 		.then((comment) => {
-			res.status(202).send({ comment });
+			res.status(200).send({ comment });
 		})
 		.catch(next);
 };
