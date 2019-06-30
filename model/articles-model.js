@@ -52,13 +52,13 @@ const fetchArticles = (query) => {
 			} else return articles;
 		})
 		.then((articleArr) => {
-			// console.log(articleArr);
 			if (articleArr[0] === false) {
 				return Promise.reject({
 					status: 404,
 					msg: 'Author not found'
 				});
 			} else if (articleArr.length === 2) {
+				//array after the promise all
 				return articleArr[1];
 			} else {
 				return articleArr;
