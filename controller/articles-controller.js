@@ -18,7 +18,7 @@ const sendArticleById = (req, res, next) => {
 		.catch(next);
 };
 
-const changeArticleVote = (req, res, next) => {
+const sendChangeArticleVote = (req, res, next) => {
 	const { article_id } = req.params;
 	const recievedBody = req.body;
 	updateArticleVote(article_id, recievedBody)
@@ -28,4 +28,4 @@ const changeArticleVote = (req, res, next) => {
 		.catch(next);
 };
 
-module.exports = { sendArticleById, changeArticleVote, sendArticle };
+module.exports = { sendArticleById, sendChangeArticleVote, sendArticle };
