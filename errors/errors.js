@@ -3,6 +3,7 @@ const sendMethodNotAllowed = (req, res) => {
 };
 
 const errStatus = (err, req, res, next) => {
+	// console.log(err.status);
 	if (err.status) {
 		res.status(err.status).send({ msg: err.msg });
 	} else {
@@ -15,7 +16,8 @@ const sqlErrors = (err, req, res, next) => {
 		'22P02': '22P02',
 		'42703': '42703'
 	};
-
+	// console.log(err.code);
+	// console.log(err);
 	if (err.code in sqlErrorCode) {
 		res.status(400).send({ msg: err.message });
 	} else {

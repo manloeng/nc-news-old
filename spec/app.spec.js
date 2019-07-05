@@ -158,24 +158,24 @@ describe('/', () => {
 
 					it('GET status:404, when trying to use an invalid username value', () => {
 						return request(app).get('/api/articles?author=sam').expect(404).then((res) => {
-							expect(res.body.msg).to.eql('Author not found');
+							expect(res.body.msg).to.eql('Not Found');
 						});
 					});
 					it('GET status:404, when trying to use an invalid username value', () => {
 						return request(app).get('/api/articles?author=not-an-author').expect(404).then((res) => {
-							expect(res.body.msg).to.eql('Author not found');
+							expect(res.body.msg).to.eql('Not Found');
 						});
 					});
 
-					xit('GET status:404, when trying to use an invalid topic_name value', () => {
+					it('GET status:404, when trying to use an invalid topic_name value', () => {
 						return request(app).get('/api/articles?topic=sam').expect(404).then((res) => {
-							expect(res.body.msg).to.eql('Topic Not Found');
+							expect(res.body.msg).to.eql('Not Found');
 						});
 					});
 
-					xit('GET status:404, when trying to use an invalid topic_name value', () => {
+					it('GET status:404, when trying to use an invalid topic_name value', () => {
 						return request(app).get('/api/articles?topic=not-a-topic').expect(404).then((res) => {
-							expect(res.body.msg).to.eql('Topic Not Found');
+							expect(res.body.msg).to.eql('Not Found');
 						});
 					});
 
