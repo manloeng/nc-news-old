@@ -5,7 +5,7 @@ const {
 	deleteComment
 } = require('../model/comments.model.js');
 
-const addComment = (req, res, next) => {
+const sendAddComment = (req, res, next) => {
 	const articleObj = req.params;
 	const recievedBody = req.body;
 	updateComment(articleObj, recievedBody)
@@ -24,7 +24,7 @@ const sendCommentByArticleId = (req, res, next) => {
 		.catch(next);
 };
 
-const patchComment = (req, res, next) => {
+const sendPatchComment = (req, res, next) => {
 	const commentObj = req.params;
 	const recievedBody = req.body;
 	updateCommentVoteCount(commentObj, recievedBody)
@@ -34,7 +34,7 @@ const patchComment = (req, res, next) => {
 		.catch(next);
 };
 
-const removeComment = (req, res, next) => {
+const sendRemoveComment = (req, res, next) => {
 	const commentObj = req.params;
 	deleteComment(commentObj)
 		.then((deleteCount) => {
@@ -43,4 +43,4 @@ const removeComment = (req, res, next) => {
 		.catch(next);
 };
 
-module.exports = { addComment, sendCommentByArticleId, patchComment, removeComment };
+module.exports = { sendAddComment, sendCommentByArticleId, sendPatchComment, sendRemoveComment };
